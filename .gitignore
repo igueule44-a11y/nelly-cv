@@ -1,0 +1,13 @@
+# Fichiers de stratégie internes (pas sur le site)
+01_Strategie_Globale_Nelly.md
+02_Profil_LinkedIn_Textes.md
+03_Suivi_Candidatures.xlsx
+04_Starter_Pack_Contenu_FR.md
+05_Banque_Sujets_et_Calendrier.md
+06_Strategie_Reseau_LinkedIn.md
+_Memoire_Projet/
+
+# Fichiers système
+.~lock.*
+.DS_Store
+Thumbs.db
