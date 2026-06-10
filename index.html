@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="favicon-64.png"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lora:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
@@ -46,6 +46,8 @@ h1,h2,h3,h4,h5,h6,.font-heading{font-family:"Playfair Display",serif}
 .play-btn:hover{background:rgba(168,117,255,.25);box-shadow:0 0 45px rgba(168,117,255,.4);transform:scale(1.05)}
 .mobile-menu{display:none}
 .mobile-menu.open{display:flex}
+/* Hero h1 : Lora (même police que la bannière) */
+h1.gradient-text{font-family:"Lora",serif!important}
 /* Sections transparentes — toile html visible */
 .bg-rich-black,.section-alt,.aurora-hero{background:transparent!important}
 footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(8px)}
@@ -325,7 +327,15 @@ Madrid ·&nbsp;Open to work
 <span class="material-symbols-outlined text-soft-white text-[28px] group-hover:text-violet-glow transition-colors">campaign</span>
 </div>
 <h3 class="font-heading text-2xl text-soft-white mb-4 font-semibold">Comunicación + PM</h3>
-<p class="text-muted-text leading-[1.7] font-light text-[15px]">Sé tanto estructurar un proyecto como comunicarlo de forma clara. Una doble cultura que muy pocos perfiles combinan.</p>
+<p class="text-muted-text leading-[1.7] font-light text-[15px] mb-6">Sé tanto estructurar un proyecto como comunicarlo de forma clara. Una doble cultura que muy pocos perfiles combinan.</p>
+<div class="flex flex-wrap gap-2">
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/notion/a875ff" class="w-3.5 h-3.5" alt=""/>Notion</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/trello/a875ff" class="w-3.5 h-3.5" alt=""/>Trello</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/asana/a875ff" class="w-3.5 h-3.5" alt=""/>Asana</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/slack/a875ff" class="w-3.5 h-3.5" alt=""/>Slack</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/canva/a875ff" class="w-3.5 h-3.5" alt=""/>Canva</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/googledrive/a875ff" class="w-3.5 h-3.5" alt=""/>Google Drive</span>
+</div>
 </div>
 <div class="glass-card-gradient p-10 rounded-2xl hover:-translate-y-2 hover:shadow-neon-blue transition-all duration-500 delay-100 group relative overflow-hidden">
 <div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-electric-blue/0 via-electric-blue/50 to-electric-blue/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -333,7 +343,14 @@ Madrid ·&nbsp;Open to work
 <span class="material-symbols-outlined text-soft-white text-[28px] group-hover:text-electric-blue transition-colors">analytics</span>
 </div>
 <h3 class="font-heading text-2xl text-soft-white mb-4 font-semibold">Data-driven</h3>
-<p class="text-muted-text leading-[1.7] font-light text-[15px]">Python, Google Analytics, reporting — pour tomar decisiones con hechos, no con intuiciones. El dato como brújula.</p>
+<p class="text-muted-text leading-[1.7] font-light text-[15px] mb-6">Python, Google Analytics, reporting — pour tomar decisiones con hechos, no con intuiciones. El dato como brújula.</p>
+<div class="flex flex-wrap gap-2">
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/python/a875ff" class="w-3.5 h-3.5" alt=""/>Python</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/googleanalytics/a875ff" class="w-3.5 h-3.5" alt=""/>Google Analytics</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/tableau/a875ff" class="w-3.5 h-3.5" alt=""/>Tableau</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/microsoftexcel/a875ff" class="w-3.5 h-3.5" alt=""/>Excel</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/powerbi/a875ff" class="w-3.5 h-3.5" alt=""/>Power BI</span>
+</div>
 </div>
 <div class="glass-card-gradient p-10 rounded-2xl hover:-translate-y-2 hover:shadow-neon-lavender transition-all duration-500 delay-200 group relative overflow-hidden">
 <div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-violet-glow/0 via-violet-glow/50 to-violet-glow/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -343,30 +360,13 @@ Madrid ·&nbsp;Open to work
 <h3 class="font-heading text-2xl text-soft-white mb-4 font-semibold">IA aplicada</h3>
 <p class="text-muted-text leading-[1.7] font-light text-[15px] mb-6">Cada semana exploro cómo las herramientas de IA optimizan workflows y reducen tiempos de gestión de proyectos.</p>
 <div class="flex flex-wrap gap-2">
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors">
-    <img src="https://cdn.simpleicons.org/anthropic/a875ff" class="w-3.5 h-3.5" alt=""/>Claude
-  </span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors">
-    <img src="https://cdn.simpleicons.org/openai/a875ff" class="w-3.5 h-3.5" alt=""/>ChatGPT
-  </span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors">
-    <img src="https://cdn.simpleicons.org/n8n/a875ff" class="w-3.5 h-3.5" alt=""/>n8n
-  </span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors">
-    <img src="https://cdn.simpleicons.org/make/a875ff" class="w-3.5 h-3.5" alt=""/>Make
-  </span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors">
-    <img src="https://cdn.simpleicons.org/microsoftcopilot/a875ff" class="w-3.5 h-3.5" alt=""/>Copilot
-  </span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors">
-    <img src="https://cdn.simpleicons.org/perplexity/a875ff" class="w-3.5 h-3.5" alt=""/>Perplexity
-  </span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors">
-    <img src="https://cdn.simpleicons.org/zapier/a875ff" class="w-3.5 h-3.5" alt=""/>Zapier AI
-  </span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors">
-    <img src="https://cdn.simpleicons.org/notion/a875ff" class="w-3.5 h-3.5" alt=""/>Notion AI
-  </span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/anthropic/a875ff" class="w-3.5 h-3.5" alt=""/>Claude</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/n8n/a875ff" class="w-3.5 h-3.5" alt=""/>n8n</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/make/a875ff" class="w-3.5 h-3.5" alt=""/>Make</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/perplexity/a875ff" class="w-3.5 h-3.5" alt=""/>Perplexity</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/zapier/a875ff" class="w-3.5 h-3.5" alt=""/>Zapier AI</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/notion/a875ff" class="w-3.5 h-3.5" alt=""/>Notion AI</span>
+  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">smart_toy</span>Hermès Agents</span>
 </div>
 </div>
 </div>
