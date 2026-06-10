@@ -13,7 +13,8 @@
 tailwind.config={darkMode:"class",theme:{extend:{colors:{"rich-black":"#11081a","soft-white":"#f8f5fa","soft-lavender":"#9d7bb0","electric-blue":"#d4b3ff","glass-bg":"rgba(45,26,61,0.4)","glass-border":"rgba(157,123,176,0.2)","muted-text":"#c4b5d4","deep-plum":"#2d1a3d","violet-glow":"#a875ff"},fontFamily:{heading:["Playfair Display","serif"],body:["Plus Jakarta Sans","sans-serif"]},boxShadow:{"neon-lavender":"0 0 20px rgba(168,117,255,0.4)","neon-blue":"0 0 15px rgba(212,179,255,0.3)","glass":"0 8px 32px 0 rgba(0,0,0,0.5)","sunken":"inset 0 2px 15px rgba(0,0,0,0.5)"}}}}
 </script>
 <style>
-body{background-color:#11081a;color:#f8f5fa;font-family:"Plus Jakarta Sans",sans-serif}
+html{background:linear-gradient(180deg,#0e081c 0%,#1a0d30 12%,#11081a 28%,#160b28 45%,#11081a 60%,#190d2c 78%,#11081a 100%);min-height:100%}
+body{background:transparent;color:#f8f5fa;font-family:"Plus Jakarta Sans",sans-serif}
 h1,h2,h3,h4,h5,h6,.font-heading{font-family:"Playfair Display",serif}
 .mesh-bg{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 15% 50%,rgba(157,123,176,.18),transparent 40%),radial-gradient(circle at 85% 30%,rgba(168,117,255,.14),transparent 40%),radial-gradient(circle at 50% 80%,rgba(100,40,180,.10),transparent 35%);z-index:0;pointer-events:none}
 .reveal{opacity:0;transform:translateY(20px);transition:all .8s cubic-bezier(.16,1,.3,1)}
@@ -42,6 +43,10 @@ h1,h2,h3,h4,h5,h6,.font-heading{font-family:"Playfair Display",serif}
 .play-btn:hover{background:rgba(168,117,255,.25);box-shadow:0 0 45px rgba(168,117,255,.4);transform:scale(1.05)}
 .mobile-menu{display:none}
 .mobile-menu.open{display:flex}
+/* Sections transparentes — toile html visible */
+.bg-rich-black,.section-alt,.aurora-hero{background:transparent!important}
+footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(8px)}
+#mob.bg-rich-black{background:rgba(17,8,26,.95)!important}
 
 /* ── GRADIENT ENHANCEMENTS ───────────────────────────────────────────────── */
 /* 1. Gradient text — titre principal */
