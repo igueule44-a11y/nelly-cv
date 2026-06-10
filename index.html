@@ -114,12 +114,15 @@ Madrid ·&nbsp;Open to work
   <div style="position:absolute;width:40%;height:60%;bottom:-10%;right:5%;background:radial-gradient(circle,rgba(120,80,255,.04),transparent 65%);pointer-events:none;"></div>
 
   <!-- Slide 1: Ouverture -->
-  <div class="cvs" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5%;opacity:0;transition:opacity .8s ease;text-align:center;">
-    <p style="font-size:clamp(8px,1.1vw,12px);letter-spacing:.3em;color:#a875ff;text-transform:uppercase;margin-bottom:clamp(8px,2vh,18px);font-weight:600;">Presentación</p>
-    <h2 style="font-size:clamp(26px,5.5vw,70px);color:#f8f5fa;font-weight:700;line-height:1;margin-bottom:clamp(6px,1.5vh,14px);letter-spacing:-.02em;">Nelly Orozco</h2>
-    <p style="font-size:clamp(12px,1.8vw,22px);color:#d4b3ff;font-weight:300;letter-spacing:.1em;margin-bottom:clamp(14px,3vh,30px);">Project Manager</p>
-    <div style="width:60px;height:1px;background:linear-gradient(90deg,transparent,#a875ff,transparent);margin-bottom:clamp(10px,2vh,22px);"></div>
-    <p style="font-size:clamp(9px,1.2vw,14px);color:rgba(212,179,255,.55);letter-spacing:.15em;text-transform:uppercase;">Comunicación · IA aplicada · Madrid</p>
+  <div class="cvs" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:clamp(16px,4vw,48px);padding:5% 7%;opacity:0;transition:opacity .8s ease;">
+    <img src="nelly-portrait.jpg" alt="Nelly Orozco" onerror="this.style.display='none'" style="width:clamp(70px,13vw,150px);height:clamp(70px,13vw,150px);border-radius:50%;object-fit:cover;object-position:center top;border:2px solid rgba(168,117,255,.45);box-shadow:0 0 28px rgba(168,117,255,.25);flex-shrink:0;">
+    <div>
+      <p style="font-size:clamp(8px,1.1vw,12px);letter-spacing:.3em;color:#a875ff;text-transform:uppercase;margin-bottom:clamp(6px,1.5vh,12px);font-weight:600;">Presentación</p>
+      <h2 style="font-size:clamp(22px,4.5vw,58px);color:#f8f5fa;font-weight:700;line-height:1;margin-bottom:clamp(5px,1.2vh,10px);letter-spacing:-.02em;">Nelly Orozco</h2>
+      <p style="font-size:clamp(11px,1.6vw,20px);color:#d4b3ff;font-weight:300;letter-spacing:.08em;margin-bottom:clamp(10px,2.5vh,22px);">Project Manager</p>
+      <div style="width:50px;height:1px;background:linear-gradient(90deg,#a875ff,transparent);margin-bottom:clamp(8px,1.8vh,16px);"></div>
+      <p style="font-size:clamp(9px,1.1vw,13px);color:rgba(212,179,255,.55);letter-spacing:.12em;text-transform:uppercase;">Comunicación · IA · Madrid</p>
+    </div>
   </div>
 
   <!-- Slide 2: Perfil hybride -->
@@ -190,13 +193,19 @@ Madrid ·&nbsp;Open to work
   </div>
 
   <!-- Slide 6: Contacto -->
-  <div class="cvs" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5%;opacity:0;transition:opacity .8s ease;text-align:center;">
-    <p style="font-size:clamp(8px,1.1vw,12px);letter-spacing:.3em;color:#a875ff;text-transform:uppercase;margin-bottom:clamp(8px,2vh,18px);font-weight:600;">Contacto</p>
-    <h3 style="font-size:clamp(18px,3.5vw,44px);color:#f8f5fa;font-weight:700;margin-bottom:clamp(6px,1.5vh,14px);line-height:1.1;">Disponible en Madrid</h3>
-    <p style="font-size:clamp(10px,1.4vw,16px);color:rgba(212,179,255,.75);margin-bottom:clamp(12px,3vh,26px);font-weight:300;">PM · Marketing · Comunicación</p>
-    <a href="https://www.linkedin.com/in/nelly-orozco/" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:rgba(168,117,255,.1);border:1px solid rgba(168,117,255,.35);border-radius:30px;padding:10px 22px;text-decoration:none;box-shadow:0 0 20px rgba(168,117,255,.15);transition:box-shadow .3s;" onmouseover="this.style.boxShadow='0 0 30px rgba(168,117,255,.35)'" onmouseout="this.style.boxShadow='0 0 20px rgba(168,117,255,.15)'">
-      <span style="font-size:clamp(10px,1.2vw,14px);color:#d4b3ff;letter-spacing:.04em;">linkedin.com/in/nelly-orozco</span>
-    </a>
+  <div class="cvs" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5%;opacity:0;transition:opacity .8s ease;text-align:center;overflow:hidden;">
+    <!-- Retiro background -->
+    <div style="position:absolute;inset:0;background-image:url('nelly-madrid.jpg');background-size:cover;background-position:center 20%;opacity:.13;filter:blur(2px);transform:scale(1.05);"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(13,6,24,.7),rgba(13,6,24,.5));"></div>
+    <!-- Content -->
+    <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;">
+      <p style="font-size:clamp(8px,1.1vw,12px);letter-spacing:.3em;color:#a875ff;text-transform:uppercase;margin-bottom:clamp(8px,2vh,18px);font-weight:600;">Contacto</p>
+      <h3 style="font-size:clamp(18px,3.5vw,44px);color:#f8f5fa;font-weight:700;margin-bottom:clamp(6px,1.5vh,14px);line-height:1.1;">Disponible en Madrid</h3>
+      <p style="font-size:clamp(10px,1.4vw,16px);color:rgba(212,179,255,.8);margin-bottom:clamp(12px,3vh,26px);font-weight:300;">PM · Marketing · Comunicación</p>
+      <a href="https://www.linkedin.com/in/nelly-orozco/" target="_blank" style="display:inline-flex;align-items:center;gap:10px;background:rgba(168,117,255,.15);border:1px solid rgba(168,117,255,.4);border-radius:30px;padding:10px 22px;text-decoration:none;box-shadow:0 0 24px rgba(168,117,255,.2);transition:box-shadow .3s;" onmouseover="this.style.boxShadow='0 0 35px rgba(168,117,255,.4)'" onmouseout="this.style.boxShadow='0 0 24px rgba(168,117,255,.2)'">
+        <span style="font-size:clamp(10px,1.2vw,14px);color:#d4b3ff;letter-spacing:.04em;">linkedin.com/in/nelly-orozco</span>
+      </a>
+    </div>
   </div>
 
   <!-- Progress bar -->
