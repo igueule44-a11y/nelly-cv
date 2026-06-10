@@ -15,7 +15,7 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"rich-black":"#11081a",
 <style>
 body{background-color:#11081a;color:#f8f5fa;font-family:"Plus Jakarta Sans",sans-serif}
 h1,h2,h3,h4,h5,h6,.font-heading{font-family:"Playfair Display",serif}
-.mesh-bg{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 15% 50%,rgba(157,123,176,.1),transparent 30%),radial-gradient(circle at 85% 30%,rgba(168,117,255,.08),transparent 30%);z-index:0;pointer-events:none}
+.mesh-bg{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 15% 50%,rgba(157,123,176,.18),transparent 40%),radial-gradient(circle at 85% 30%,rgba(168,117,255,.14),transparent 40%),radial-gradient(circle at 50% 80%,rgba(100,40,180,.10),transparent 35%);z-index:0;pointer-events:none}
 .reveal{opacity:0;transform:translateY(20px);transition:all .8s cubic-bezier(.16,1,.3,1)}
 .reveal.active{opacity:1;transform:translateY(0)}
 .marquee-wrapper{overflow:hidden;white-space:nowrap;position:relative;width:100%}
@@ -42,6 +42,56 @@ h1,h2,h3,h4,h5,h6,.font-heading{font-family:"Playfair Display",serif}
 .play-btn:hover{background:rgba(168,117,255,.25);box-shadow:0 0 45px rgba(168,117,255,.4);transform:scale(1.05)}
 .mobile-menu{display:none}
 .mobile-menu.open{display:flex}
+
+/* ── GRADIENT ENHANCEMENTS ───────────────────────────────────────────────── */
+/* 1. Gradient text — titre principal */
+.gradient-text{
+  background:linear-gradient(135deg,#f8f5fa 0%,#e2c8ff 35%,#a875ff 65%,#d4a0ff 100%);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+/* 2. Aurora hero: mesh gradient animé en arrière-plan */
+.aurora-hero{
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 45%,rgba(168,117,255,.14),transparent),
+    radial-gradient(ellipse 55% 50% at 85% 20%,rgba(100,50,200,.10),transparent),
+    radial-gradient(ellipse 50% 45% at 55% 85%,rgba(200,80,180,.07),transparent),
+    radial-gradient(ellipse 40% 35% at 70% 50%,rgba(60,20,140,.12),transparent),
+    #11081a;
+  animation:aurora-shift 12s ease-in-out infinite alternate;
+}
+@keyframes aurora-shift{
+  0%{filter:hue-rotate(0deg) brightness(1)}
+  50%{filter:hue-rotate(8deg) brightness(1.04)}
+  100%{filter:hue-rotate(-5deg) brightness(1)}
+}
+/* 3. Gradient border on glass-cards (via pseudo) */
+.glass-card-gradient{
+  background:rgba(45,26,61,.3);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border:1px solid transparent;
+  background-clip:padding-box;
+  box-shadow:inset 0 2px 20px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.4),0 0 0 1px rgba(168,117,255,.15);
+  position:relative;
+}
+.glass-card-gradient::before{
+  content:"";
+  position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:linear-gradient(135deg,rgba(168,117,255,.3),rgba(212,179,255,.1),rgba(168,117,255,.2));
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;
+}
+/* 4. Gradient section divider */
+.section-gradient-top{
+  background:linear-gradient(180deg,rgba(45,26,61,.25) 0%,transparent 100%);
+}
+/* 5. Gradient sur les sections alternées */
+.section-alt{
+  background:linear-gradient(160deg,rgba(45,26,61,.4) 0%,rgba(17,8,26,1) 60%,rgba(30,12,50,.3) 100%);
+}
 </style>
 </head>
 <body class="bg-rich-black text-soft-white antialiased overflow-x-hidden">
@@ -71,14 +121,14 @@ h1,h2,h3,h4,h5,h6,.font-heading{font-family:"Playfair Display",serif}
 </div>
 </nav>
 
-<section class="relative pt-40 pb-20 md:pt-48 md:pb-32 min-h-screen flex flex-col justify-center bg-rich-black overflow-hidden">
+<section class="relative pt-40 pb-20 md:pt-48 md:pb-32 min-h-screen flex flex-col justify-center aurora-hero overflow-hidden">
 <div class="mesh-bg"></div>
 <div class="max-w-[1200px] mx-auto px-5 md:px-6 w-full relative z-10 text-center reveal">
 <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full glass-card text-xs text-soft-white mb-8 uppercase tracking-[.15em] font-medium border border-glass-border">
 <span class="material-symbols-outlined text-[16px] text-electric-blue neon-icon">location_on</span>
 Madrid ·&nbsp;Open to work
 </span>
-<h1 class="font-heading text-[48px] md:text-[84px] leading-[1.05] text-soft-white mb-4 font-bold tracking-tight">Nelly Orozco</h1>
+<h1 class="font-heading text-[48px] md:text-[84px] leading-[1.05] gradient-text mb-4 font-bold tracking-tight">Nelly Orozco</h1>
 <p class="font-body text-xl md:text-2xl text-muted-text mb-2 font-light tracking-wide">Project Manager</p>
 <p class="font-body text-sm md:text-base text-soft-lavender mb-12 max-w-lg mx-auto font-light tracking-widest uppercase">Comunicación · Data · IA aplicada · Madrid</p>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-5 mb-24">
@@ -105,7 +155,7 @@ Madrid ·&nbsp;Open to work
 <div class="max-w-[900px] mx-auto px-5 md:px-6">
 <div class="text-center mb-10 reveal">
 <p class="text-[12px] text-soft-lavender uppercase tracking-[.25em] font-semibold mb-3">Presentación</p>
-<h2 class="font-heading text-3xl md:text-5xl text-soft-white font-bold">CV en vídeo</h2>
+<h2 class="font-heading text-3xl md:text-5xl gradient-text font-bold">CV en vídeo</h2>
 </div>
 <div id="cv-motion" class="reveal" style="aspect-ratio:16/9;background:#0d0618;border:1px solid rgba(157,123,176,.15);border-radius:1.5rem;overflow:hidden;position:relative;cursor:default;user-select:none;">
 
@@ -245,7 +295,7 @@ Madrid ·&nbsp;Open to work
 </div>
 </section>
 
-<section class="py-16 md:py-32 bg-rich-black relative" id="sobre-mi">
+<section class="py-16 md:py-32 section-alt relative" id="sobre-mi">
 <div class="max-w-[1200px] mx-auto px-5 md:px-6 relative z-10">
 <div class="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 mb-20 items-center reveal">
 <div class="relative">
@@ -261,7 +311,7 @@ Madrid ·&nbsp;Open to work
 </div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
-<div class="glass-card p-10 rounded-2xl hover:-translate-y-2 hover:border-violet-glow/40 hover:shadow-neon-lavender transition-all duration-500 group relative overflow-hidden">
+<div class="glass-card-gradient p-10 rounded-2xl hover:-translate-y-2 hover:shadow-neon-lavender transition-all duration-500 group relative overflow-hidden">
 <div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-violet-glow/0 via-violet-glow/50 to-violet-glow/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 <div class="w-16 h-16 rounded-full bg-deep-plum/50 border border-glass-border flex items-center justify-center mb-8 group-hover:bg-deep-plum transition-colors shadow-sunken">
 <span class="material-symbols-outlined text-soft-white text-[28px] group-hover:text-violet-glow transition-colors">campaign</span>
@@ -269,7 +319,7 @@ Madrid ·&nbsp;Open to work
 <h3 class="font-heading text-2xl text-soft-white mb-4 font-semibold">Comunicación + PM</h3>
 <p class="text-muted-text leading-[1.7] font-light text-[15px]">Sé tanto estructurar un proyecto como comunicarlo de forma clara. Una doble cultura que muy pocos perfiles combinan.</p>
 </div>
-<div class="glass-card p-10 rounded-2xl hover:-translate-y-2 hover:border-electric-blue/40 hover:shadow-neon-blue transition-all duration-500 delay-100 group relative overflow-hidden">
+<div class="glass-card-gradient p-10 rounded-2xl hover:-translate-y-2 hover:shadow-neon-blue transition-all duration-500 delay-100 group relative overflow-hidden">
 <div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-electric-blue/0 via-electric-blue/50 to-electric-blue/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 <div class="w-16 h-16 rounded-full bg-deep-plum/50 border border-glass-border flex items-center justify-center mb-8 group-hover:bg-deep-plum transition-colors shadow-sunken">
 <span class="material-symbols-outlined text-soft-white text-[28px] group-hover:text-electric-blue transition-colors">analytics</span>
@@ -277,7 +327,7 @@ Madrid ·&nbsp;Open to work
 <h3 class="font-heading text-2xl text-soft-white mb-4 font-semibold">Data-driven</h3>
 <p class="text-muted-text leading-[1.7] font-light text-[15px]">Python, Google Analytics, reporting — pour tomar decisiones con hechos, no con intuiciones. El dato como brújula.</p>
 </div>
-<div class="glass-card p-10 rounded-2xl hover:-translate-y-2 hover:border-violet-glow/40 hover:shadow-neon-lavender transition-all duration-500 delay-200 group relative overflow-hidden">
+<div class="glass-card-gradient p-10 rounded-2xl hover:-translate-y-2 hover:shadow-neon-lavender transition-all duration-500 delay-200 group relative overflow-hidden">
 <div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-violet-glow/0 via-violet-glow/50 to-violet-glow/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 <div class="w-16 h-16 rounded-full bg-deep-plum/50 border border-glass-border flex items-center justify-center mb-8 group-hover:bg-deep-plum transition-colors shadow-sunken">
 <span class="material-symbols-outlined text-soft-white text-[28px] group-hover:text-violet-glow transition-colors">memory</span>
@@ -293,7 +343,7 @@ Madrid ·&nbsp;Open to work
 <div class="max-w-[1200px] mx-auto px-5 md:px-6">
 <div class="text-center mb-14 reveal">
 <p class="text-[12px] text-soft-lavender uppercase tracking-[.25em] font-semibold mb-3">Qué sé hacer</p>
-<h2 class="font-heading text-3xl md:text-5xl text-soft-white font-bold">Competencias</h2>
+<h2 class="font-heading text-3xl md:text-5xl gradient-text font-bold">Competencias</h2>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
 <div class="glass-card p-8 rounded-2xl">
@@ -320,14 +370,14 @@ Madrid ·&nbsp;Open to work
 <div class="max-w-[900px] mx-auto px-5 md:px-6">
 <div class="text-center mb-14 reveal">
 <p class="text-[12px] text-soft-lavender uppercase tracking-[.25em] font-semibold mb-3">Trayectoria</p>
-<h2 class="font-heading text-3xl md:text-5xl text-soft-white font-bold">Experiencia</h2>
+<h2 class="font-heading text-3xl md:text-5xl gradient-text font-bold">Experiencia</h2>
 </div>
 <div class="flex gap-6 mb-8 reveal">
 <div class="flex flex-col items-center pt-1.5" style="min-width:10px">
 <div class="timeline-dot"></div>
 <div class="timeline-line flex-1 mt-2"></div>
 </div>
-<div class="glass-card p-8 rounded-2xl flex-1 hover:border-violet-glow/30 transition-all duration-500 mb-8">
+<div class="glass-card-gradient p-8 rounded-2xl flex-1 transition-all duration-500 mb-8">
 <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-5">
 <div>
 <h3 class="font-heading text-xl text-soft-white font-semibold mb-1">Practicante — Coordinación &amp; Administración</h3>
@@ -346,7 +396,7 @@ Madrid ·&nbsp;Open to work
 <div class="flex flex-col items-center pt-1.5" style="min-width:10px">
 <div class="timeline-dot" style="background:#d4b3ff;box-shadow:0 0 10px rgba(212,179,255,.6)"></div>
 </div>
-<div class="glass-card p-8 rounded-2xl flex-1 hover:border-electric-blue/30 transition-all duration-500">
+<div class="glass-card-gradient p-8 rounded-2xl flex-1 transition-all duration-500">
 <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-5">
 <div>
 <h3 class="font-heading text-xl text-soft-white font-semibold mb-1">Analista — Gestión y Comunicación</h3>
@@ -364,14 +414,14 @@ Madrid ·&nbsp;Open to work
 </div>
 </section>
 
-<section class="py-16 md:py-32 bg-rich-black relative" id="formacion">
+<section class="py-16 md:py-32 section-alt relative" id="formacion">
 <div class="max-w-[1200px] mx-auto px-5 md:px-6">
 <div class="text-center mb-14 reveal">
 <p class="text-[12px] text-soft-lavender uppercase tracking-[.25em] font-semibold mb-3">Estudios</p>
-<h2 class="font-heading text-3xl md:text-5xl text-soft-white font-bold">Formación e idiomas</h2>
+<h2 class="font-heading text-3xl md:text-5xl gradient-text font-bold">Formación e idiomas</h2>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
-<div class="glass-card p-10 rounded-2xl">
+<div class="glass-card-gradient p-10 rounded-2xl">
 <div class="flex items-center gap-3 mb-8"><span class="material-symbols-outlined text-violet-glow neon-icon-lav text-[22px]">school</span><p class="text-[11px] text-soft-lavender uppercase tracking-[.2em] font-semibold">Formación académica</p></div>
 <div class="space-y-7">
 <div>
@@ -413,7 +463,7 @@ Madrid ·&nbsp;Open to work
 </div>
 </div>
 </div>
-<div class="glass-card p-10 rounded-2xl">
+<div class="glass-card-gradient p-10 rounded-2xl">
 <div class="flex items-center gap-3 mb-8"><span class="material-symbols-outlined text-electric-blue neon-icon text-[22px]">translate</span><p class="text-[11px] text-soft-lavender uppercase tracking-[.2em] font-semibold">Idiomas</p></div>
 <div class="space-y-7">
 <div><div class="flex justify-between items-center mb-2"><h4 class="text-soft-white font-medium">Español</h4><span class="text-muted-text text-xs uppercase tracking-wider">Nativo</span></div><div class="lang-bar"><div class="lang-bar-fill" style="width:100%"></div></div></div>
