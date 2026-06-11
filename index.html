@@ -102,6 +102,46 @@ footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(
 .section-alt{
   background:linear-gradient(160deg,rgba(45,26,61,.4) 0%,rgba(17,8,26,1) 60%,rgba(30,12,50,.3) 100%);
 }
+
+/* ── ANIMATION COMPONENTS ──────────────────────────────────────── */
+/* Hero text rotate */
+#hero-rotate{display:inline-block;transition:opacity .3s ease,transform .3s cubic-bezier(.16,1,.3,1)}
+
+/* Aurora canvas */
+#aurora-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* Cursor spotlight on glass-cards */
+.glass-card-gradient{--sx:50%;--sy:50%;--so:0}
+.glass-card-gradient::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(380px circle at var(--sx) var(--sy),rgba(168,117,255,.10),transparent 65%);
+  opacity:var(--so);transition:opacity .35s;pointer-events:none;z-index:1
+}
+
+/* Tooltips on skill badges */
+.has-tip{position:relative;cursor:default}
+.has-tip::after{
+  content:attr(data-tip);
+  position:absolute;bottom:calc(100% + 9px);left:50%;
+  transform:translateX(-50%) translateY(6px);
+  background:rgba(28,12,48,.97);border:1px solid rgba(168,117,255,.30);
+  color:#c4b5d4;font-size:11px;line-height:1.4;padding:5px 12px;border-radius:8px;
+  white-space:nowrap;opacity:0;pointer-events:none;
+  transition:opacity .2s,transform .2s cubic-bezier(.16,1,.3,1);
+  z-index:200;font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;letter-spacing:.04em;
+  box-shadow:0 4px 20px rgba(0,0,0,.5)
+}
+.has-tip:hover::after{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* Timeline line draw-on animation */
+.tl-line-draw{transform-origin:top;transform:scaleY(0);transition:transform 1.4s cubic-bezier(.16,1,.3,1) .3s}
+.tl-line-draw.active{transform:scaleY(1)}
+
+/* Metric counters */
+.metric-value{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+
+/* Magnetic buttons */
+.magnetic-btn{transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .3s,background .3s,color .3s,border-color .3s}
 </style>
 </head>
 <body class="bg-rich-black text-soft-white antialiased overflow-x-hidden">
@@ -132,20 +172,20 @@ footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(
 </nav>
 
 <section class="relative pt-40 pb-20 md:pt-48 md:pb-32 min-h-screen flex flex-col justify-center aurora-hero overflow-hidden">
-<div class="mesh-bg"></div>
+<canvas id="aurora-canvas" aria-hidden="true"></canvas>
 <div class="max-w-[1200px] mx-auto px-5 md:px-6 w-full relative z-10 text-center reveal">
 <span class="inline-flex items-center gap-2 px-5 py-2 rounded-full glass-card text-xs text-soft-white mb-8 uppercase tracking-[.15em] font-medium border border-glass-border">
 <span class="material-symbols-outlined text-[16px] text-electric-blue neon-icon">location_on</span>
 Madrid ·&nbsp;Open to work
 </span>
 <h1 class="font-heading text-[48px] md:text-[84px] leading-[1.1] gradient-text mb-3 pb-4 font-normal tracking-tight">Nelly Orozco</h1>
-<p class="font-body text-xl md:text-2xl text-muted-text mb-2 font-light tracking-wide">Project Manager</p>
+<p class="font-body text-xl md:text-2xl text-muted-text mb-2 font-light tracking-wide"><span id="hero-rotate">Project Manager</span></p>
 <p class="font-body text-sm md:text-base text-soft-lavender mb-12 max-w-lg mx-auto font-light tracking-widest uppercase">Comunicación · Data · IA aplicada · Madrid</p>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-5 mb-24">
-<a class="w-full sm:w-auto px-8 py-4 bg-violet-glow text-rich-black text-sm uppercase tracking-wider rounded shadow-neon-lavender hover:shadow-[0_0_30px_rgba(168,117,255,.6)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 font-semibold" href="#video">
+<a class="magnetic-btn w-full sm:w-auto px-8 py-4 bg-violet-glow text-rich-black text-sm uppercase tracking-wider rounded shadow-neon-lavender hover:shadow-[0_0_30px_rgba(168,117,255,.6)] flex items-center justify-center gap-2 font-semibold" href="#video">
 <span class="material-symbols-outlined">play_circle</span>Ver CV en vídeo
 </a>
-<a class="w-full sm:w-auto px-8 py-4 border border-glass-border text-soft-white text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:border-electric-blue hover:text-electric-blue hover:shadow-neon-blue transition-all duration-300 flex items-center justify-center gap-2 font-medium" href="cv-nelly-orozco.pdf" download>
+<a class="magnetic-btn w-full sm:w-auto px-8 py-4 border border-glass-border text-soft-white text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:border-electric-blue hover:text-electric-blue hover:shadow-neon-blue transition-colors duration-300 flex items-center justify-center gap-2 font-medium" href="cv-nelly-orozco.pdf" download>
 <span class="material-symbols-outlined">download</span>Descargar CV
 </a>
 <a class="w-full sm:w-auto px-6 py-3 border border-glass-border text-muted-text text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:text-soft-white transition-all duration-300 flex items-center justify-center gap-3 font-medium" href="https://www.linkedin.com/in/nelly-orozco/" target="_blank">
@@ -156,6 +196,29 @@ Madrid ·&nbsp;Open to work
 <div class="marquee-content text-[12px] text-muted-text uppercase tracking-[.2em] flex gap-10 font-medium items-center">
 <span>Project Management</span><span class="opacity-30 text-violet-glow">◆</span><span>Agile / Scrum</span><span class="opacity-30 text-violet-glow">◆</span><span>Data &amp; Analytics</span><span class="opacity-30 text-violet-glow">◆</span><span>IA aplicada</span><span class="opacity-30 text-violet-glow">◆</span><span>Marketing Digital</span><span class="opacity-30 text-violet-glow">◆</span><span>Python</span><span class="opacity-30 text-violet-glow">◆</span><span>Google Analytics</span><span class="opacity-30 text-violet-glow">◆</span><span>English C1</span><span class="opacity-30 text-violet-glow">◆</span>
 <span>Project Management</span><span class="opacity-30 text-violet-glow">◆</span><span>Agile / Scrum</span><span class="opacity-30 text-violet-glow">◆</span><span>Data &amp; Analytics</span><span class="opacity-30 text-violet-glow">◆</span><span>IA aplicada</span><span class="opacity-30 text-violet-glow">◆</span><span>Marketing Digital</span><span class="opacity-30 text-violet-glow">◆</span><span>Python</span><span class="opacity-30 text-violet-glow">◆</span><span>Google Analytics</span><span class="opacity-30 text-violet-glow">◆</span><span>English C1</span>
+</div>
+</div>
+</div>
+</section>
+
+<section class="py-12 md:py-16 relative z-10 border-y border-glass-border" style="background:rgba(45,26,61,.12)">
+<div class="max-w-[1100px] mx-auto px-5 md:px-6">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 reveal">
+<div class="text-center px-4">
+<p class="font-heading text-5xl md:text-6xl gradient-text font-bold metric-value" data-count="5" data-suffix=" años">0</p>
+<p class="text-[11px] text-soft-lavender uppercase tracking-[.2em] font-semibold mt-3 leading-relaxed">Admin. Pública</p>
+</div>
+<div class="text-center px-4">
+<p class="font-heading text-5xl md:text-6xl gradient-text font-bold metric-value" data-count="3">0</p>
+<p class="text-[11px] text-soft-lavender uppercase tracking-[.2em] font-semibold mt-3 leading-relaxed">Idiomas</p>
+</div>
+<div class="text-center px-4">
+<p class="font-heading text-5xl md:text-6xl gradient-text font-bold metric-value" data-count="15" data-suffix="+">0</p>
+<p class="text-[11px] text-soft-lavender uppercase tracking-[.2em] font-semibold mt-3 leading-relaxed">Herramientas IA</p>
+</div>
+<div class="text-center px-4">
+<p class="font-heading text-5xl md:text-6xl gradient-text font-bold">1</p>
+<p class="text-[11px] text-soft-lavender uppercase tracking-[.2em] font-semibold mt-3 leading-relaxed">Máster en PM</p>
 </div>
 </div>
 </div>
@@ -329,11 +392,11 @@ Madrid ·&nbsp;Open to work
 <h3 class="font-heading text-2xl text-soft-white mb-4 font-semibold">Comunicación + PM</h3>
 <p class="text-muted-text leading-[1.7] font-light text-[15px] mb-6">Sé tanto estructurar un proyecto como comunicarlo de forma clara. Una doble cultura que muy pocos perfiles combinan.</p>
 <div class="flex flex-wrap gap-2">
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/notion/a875ff" class="w-3.5 h-3.5" alt=""/>Notion</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/trello/a875ff" class="w-3.5 h-3.5" alt=""/>Trello</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/asana/a875ff" class="w-3.5 h-3.5" alt=""/>Asana</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">tag</span>Slack</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">palette</span>Canva</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Gestión de proyectos y wikis de equipo"><img src="https://cdn.simpleicons.org/notion/a875ff" class="w-3.5 h-3.5" alt=""/>Notion</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Tableros Kanban y seguimiento de tareas"><img src="https://cdn.simpleicons.org/trello/a875ff" class="w-3.5 h-3.5" alt=""/>Trello</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Coordinación de proyectos Agile/Scrum"><img src="https://cdn.simpleicons.org/asana/a875ff" class="w-3.5 h-3.5" alt=""/>Asana</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Comunicación de equipo y canales por proyecto"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">tag</span>Slack</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Diseño de contenidos y presentaciones visuales"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">palette</span>Canva</span>
 </div>
 </div>
 <div class="glass-card-gradient p-10 rounded-2xl hover:-translate-y-2 hover:shadow-neon-blue transition-all duration-500 delay-100 group relative overflow-hidden">
@@ -344,11 +407,11 @@ Madrid ·&nbsp;Open to work
 <h3 class="font-heading text-2xl text-soft-white mb-4 font-semibold">Data-driven</h3>
 <p class="text-muted-text leading-[1.7] font-light text-[15px] mb-6">Python, Google Analytics, reporting — pour tomar decisiones con hechos, no con intuiciones. El dato como brújula.</p>
 <div class="flex flex-wrap gap-2">
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/python/a875ff" class="w-3.5 h-3.5" alt=""/>Python</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/googleanalytics/a875ff" class="w-3.5 h-3.5" alt=""/>Google Analytics</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/airtable/a875ff" class="w-3.5 h-3.5" alt=""/>Airtable</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">table_chart</span>Excel</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">insights</span>Power BI</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Análisis de datos, automatización y scripting"><img src="https://cdn.simpleicons.org/python/a875ff" class="w-3.5 h-3.5" alt=""/>Python</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Métricas web, conversiones y audiencias"><img src="https://cdn.simpleicons.org/googleanalytics/a875ff" class="w-3.5 h-3.5" alt=""/>Google Analytics</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Base de datos relacional y gestión visual"><img src="https://cdn.simpleicons.org/airtable/a875ff" class="w-3.5 h-3.5" alt=""/>Airtable</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Hojas de cálculo, tablas dinámicas y dashboards"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">table_chart</span>Excel</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Visualización de datos e informes interactivos"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">insights</span>Power BI</span>
 </div>
 </div>
 <div class="glass-card-gradient p-10 rounded-2xl hover:-translate-y-2 hover:shadow-neon-lavender transition-all duration-500 delay-200 group relative overflow-hidden">
@@ -359,13 +422,13 @@ Madrid ·&nbsp;Open to work
 <h3 class="font-heading text-2xl text-soft-white mb-4 font-semibold">IA aplicada</h3>
 <p class="text-muted-text leading-[1.7] font-light text-[15px] mb-6">Cada semana exploro cómo las herramientas de IA optimizan workflows y reducen tiempos de gestión de proyectos.</p>
 <div class="flex flex-wrap gap-2">
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/anthropic/a875ff" class="w-3.5 h-3.5" alt=""/>Claude</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/n8n/a875ff" class="w-3.5 h-3.5" alt=""/>n8n</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/make/a875ff" class="w-3.5 h-3.5" alt=""/>Make</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/perplexity/a875ff" class="w-3.5 h-3.5" alt=""/>Perplexity</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">bolt</span>Zapier AI</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><img src="https://cdn.simpleicons.org/notion/a875ff" class="w-3.5 h-3.5" alt=""/>Notion AI</span>
-  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">smart_toy</span>Hermès Agents</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Asistente IA avanzado para redacción y análisis"><img src="https://cdn.simpleicons.org/anthropic/a875ff" class="w-3.5 h-3.5" alt=""/>Claude</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Automatización de workflows sin código"><img src="https://cdn.simpleicons.org/n8n/a875ff" class="w-3.5 h-3.5" alt=""/>n8n</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Integración visual de aplicaciones y procesos"><img src="https://cdn.simpleicons.org/make/a875ff" class="w-3.5 h-3.5" alt=""/>Make</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Búsqueda inteligente con fuentes verificadas"><img src="https://cdn.simpleicons.org/perplexity/a875ff" class="w-3.5 h-3.5" alt=""/>Perplexity</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Automatización con disparadores inteligentes"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">bolt</span>Zapier AI</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Redacción y organización con IA integrada"><img src="https://cdn.simpleicons.org/notion/a875ff" class="w-3.5 h-3.5" alt=""/>Notion AI</span>
+  <span class="has-tip inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deep-plum/60 border border-glass-border text-[11px] text-muted-text font-medium tracking-wide hover:border-violet-glow/50 transition-colors" data-tip="Agentes IA para tareas autónomas"><span class="material-symbols-outlined text-[14px] text-[#a875ff]">smart_toy</span>Hermès Agents</span>
 </div>
 </div>
 </div>
@@ -408,7 +471,7 @@ Madrid ·&nbsp;Open to work
 <div class="flex gap-6 mb-8 reveal">
 <div class="flex flex-col items-center pt-1.5" style="min-width:10px">
 <div class="timeline-dot"></div>
-<div class="timeline-line flex-1 mt-2"></div>
+<div class="timeline-line tl-line-draw flex-1 mt-2"></div>
 </div>
 <div class="glass-card-gradient p-8 rounded-2xl flex-1 transition-all duration-500 mb-8">
 <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-5">
@@ -569,6 +632,133 @@ function reveal(){document.querySelectorAll(".reveal").forEach(e=>{if(e.getBound
 window.addEventListener("scroll",reveal);reveal();
 const nb=document.getElementById("navbar");
 window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("nav-scrolled");nb.classList.replace("py-4","py-3")}else{nb.classList.remove("nav-scrolled");nb.classList.replace("py-3","py-4")}});
+</script>
+
+<script>
+/* ── AURORA CANVAS ───────────────────────────────────────────────── */
+(function(){
+  var canvas=document.getElementById('aurora-canvas');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var blobs=[
+    {x:.15,y:.5,r:.55,vx:.0003,vy:.0002,c:'168,117,255',a:.13},
+    {x:.85,y:.25,r:.45,vx:-.0002,vy:.0003,c:'100,50,200',a:.09},
+    {x:.5,y:.85,r:.4,vx:.0002,vy:-.0003,c:'200,80,180',a:.07},
+    {x:.7,y:.5,r:.35,vx:-.0003,vy:-.0002,c:'60,20,140',a:.11}
+  ];
+  function resize(){canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;}
+  resize();
+  window.addEventListener('resize',resize);
+  function draw(){
+    var w=canvas.width,h=canvas.height;
+    ctx.clearRect(0,0,w,h);
+    blobs.forEach(function(b){
+      b.x+=b.vx; b.y+=b.vy;
+      if(b.x<0||b.x>1)b.vx*=-1;
+      if(b.y<0||b.y>1)b.vy*=-1;
+      var gx=b.x*w, gy=b.y*h, gr=Math.min(w,h)*b.r;
+      var g=ctx.createRadialGradient(gx,gy,0,gx,gy,gr);
+      g.addColorStop(0,'rgba('+b.c+','+b.a+')');
+      g.addColorStop(1,'rgba('+b.c+',0)');
+      ctx.fillStyle=g;
+      ctx.beginPath();ctx.arc(gx,gy,gr,0,Math.PI*2);ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── HERO TEXT ROTATE ────────────────────────────────────────────── */
+(function(){
+  var el=document.getElementById('hero-rotate');
+  if(!el)return;
+  var labels=['Project Manager','PM & IA · Madrid','Comunicación · Data · IA','Open to Work ✦'];
+  var i=0;
+  setInterval(function(){
+    el.style.opacity='0';
+    el.style.transform='translateY(-8px)';
+    setTimeout(function(){
+      i=(i+1)%labels.length;
+      el.textContent=labels[i];
+      el.style.opacity='1';
+      el.style.transform='translateY(0)';
+    },320);
+  },2800);
+})();
+
+/* ── CURSOR SPOTLIGHT on glass-card-gradient ─────────────────────── */
+(function(){
+  document.querySelectorAll('.glass-card-gradient').forEach(function(card){
+    card.addEventListener('mousemove',function(e){
+      var r=card.getBoundingClientRect();
+      var x=((e.clientX-r.left)/r.width*100).toFixed(1)+'%';
+      var y=((e.clientY-r.top)/r.height*100).toFixed(1)+'%';
+      card.style.setProperty('--sx',x);
+      card.style.setProperty('--sy',y);
+      card.style.setProperty('--so','1');
+    });
+    card.addEventListener('mouseleave',function(){
+      card.style.setProperty('--so','0');
+    });
+  });
+})();
+
+/* ── MAGNETIC BUTTONS ────────────────────────────────────────────── */
+(function(){
+  document.querySelectorAll('.magnetic-btn').forEach(function(btn){
+    btn.addEventListener('mousemove',function(e){
+      var r=btn.getBoundingClientRect();
+      var dx=(e.clientX-r.left-r.width/2)*.18;
+      var dy=(e.clientY-r.top-r.height/2)*.18;
+      btn.style.transform='translate('+dx+'px,'+dy+'px)';
+    });
+    btn.addEventListener('mouseleave',function(){
+      btn.style.transform='translate(0,0)';
+    });
+  });
+})();
+
+/* ── METRIC COUNTERS ─────────────────────────────────────────────── */
+(function(){
+  var done=false;
+  var obs=new IntersectionObserver(function(entries){
+    if(done)return;
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        done=true;
+        document.querySelectorAll('[data-count]').forEach(function(el){
+          var target=+el.dataset.count;
+          var suffix=el.dataset.suffix||'';
+          var start=0,duration=1400,t0=null;
+          function step(ts){
+            if(!t0)t0=ts;
+            var p=Math.min((ts-t0)/duration,1);
+            var eased=1-Math.pow(1-p,4);
+            var val=Math.round(eased*target);
+            el.textContent=val+suffix;
+            if(p<1)requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        });
+        obs.disconnect();
+      }
+    });
+  },{threshold:.3});
+  var firstCounter=document.querySelector('[data-count]');
+  if(firstCounter)obs.observe(firstCounter.closest('section')||firstCounter);
+})();
+
+/* ── TIMELINE LINE DRAW ──────────────────────────────────────────── */
+(function(){
+  var lines=document.querySelectorAll('.tl-line-draw');
+  if(!lines.length)return;
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting)entry.target.classList.add('active');
+    });
+  },{threshold:.1,rootMargin:'0px 0px -60px 0px'});
+  lines.forEach(function(l){obs.observe(l);});
+})();
 </script>
 </body>
 </html>
