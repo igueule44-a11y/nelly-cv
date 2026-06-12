@@ -225,6 +225,14 @@ body::after{
   position:fixed;inset:0;pointer-events:none;z-index:9997;
   background:radial-gradient(700px circle at var(--mx) var(--my),rgba(168,117,255,.065),transparent 50%);
 }
+
+/* ── CONTACT FORM ────────────────────────────────────────────────── */
+.form-label{display:block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#9d7bb0;margin-bottom:7px}
+.form-input{display:block;width:100%;background:rgba(17,8,26,.55);border:1px solid rgba(157,123,176,.2);border-radius:10px;color:#f8f5fa;padding:13px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:400;outline:none;transition:border-color .3s,box-shadow .3s,background .3s;-webkit-appearance:none;appearance:none}
+.form-input::placeholder{color:rgba(196,181,212,.35)}
+.form-input:focus{border-color:rgba(168,117,255,.55);box-shadow:0 0 0 3px rgba(168,117,255,.1),inset 0 2px 8px rgba(0,0,0,.2);background:rgba(17,8,26,.75)}
+textarea.form-input{line-height:1.65;resize:vertical;min-height:130px}
+#contact-form button[type=submit]:disabled{cursor:not-allowed}
 </style>
 </head>
 <body class="bg-rich-black text-soft-white antialiased overflow-x-hidden">
@@ -777,11 +785,39 @@ Madrid ·&nbsp;Open to work
 <div class="max-w-[700px] mx-auto px-5 md:px-6 text-center relative z-10 reveal">
 <p class="text-[12px] text-soft-lavender uppercase tracking-[.25em] font-semibold mb-4">Hablemos</p>
 <h2 class="font-heading text-3xl md:text-5xl text-soft-white font-bold mb-5">¿Buscas un perfil como el mío?</h2>
-<p class="text-muted-text text-lg font-light leading-relaxed mb-12">Estoy abierta a oportunidades en gestión de proyectos, marketing o data en Madrid. No dudes en escribirme.</p>
+<p class="text-muted-text text-lg font-light leading-relaxed mb-10">Estoy abierta a oportunidades en gestión de proyectos, marketing o data en Madrid.</p>
+
+<!-- Formulario de contacto -->
+<form id="contact-form" class="glass-card-gradient rounded-2xl p-8 md:p-10 text-left mb-8">
+  <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY"/>
+  <input type="hidden" name="subject" value="Nuevo contacto — nelly-orozco.vercel.app"/>
+  <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off"/>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
+    <div>
+      <label class="form-label">Nombre</label>
+      <input type="text" name="name" required placeholder="Tu nombre" class="form-input"/>
+    </div>
+    <div>
+      <label class="form-label">Email</label>
+      <input type="email" name="email" required placeholder="tu@email.com" class="form-input"/>
+    </div>
+  </div>
+  <div class="mb-5">
+    <label class="form-label">Asunto</label>
+    <input type="text" name="asunto" placeholder="Oferta de empleo, colaboración, info…" class="form-input"/>
+  </div>
+  <div class="mb-7">
+    <label class="form-label">Mensaje</label>
+    <textarea name="message" required placeholder="Cuéntame un poco más…" rows="5" class="form-input"></textarea>
+  </div>
+  <button type="submit" id="form-btn" class="w-full py-4 bg-violet-glow text-rich-black text-sm uppercase tracking-wider rounded shadow-neon-lavender hover:shadow-[0_0_30px_rgba(168,117,255,.7)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2 font-semibold">
+    <span class="material-symbols-outlined text-[18px]" id="form-icon">send</span>
+    <span id="form-text">Enviar mensaje</span>
+  </button>
+  <div id="form-msg" style="display:none" class="mt-5 p-4 rounded-xl text-sm font-medium text-center"></div>
+</form>
+
 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-<a class="w-full sm:w-auto px-8 py-4 bg-violet-glow text-rich-black text-sm uppercase tracking-wider rounded shadow-neon-lavender hover:shadow-[0_0_30px_rgba(168,117,255,.7)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-2 font-semibold" href="mailto:nellyorozcocontreras@gmail.com">
-<span class="material-symbols-outlined text-[18px]">mail</span>Enviar un mensaje
-</a>
 <a class="w-full sm:w-auto px-8 py-4 border border-glass-border text-soft-white text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:border-electric-blue hover:text-electric-blue hover:shadow-neon-blue transition-all duration-300 flex items-center justify-center gap-2 font-medium" href="https://www.linkedin.com/in/nelly-orozco/" target="_blank">
 <span class="material-symbols-outlined text-[18px]">person</span>LinkedIn
 </a>
@@ -978,6 +1014,46 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
     });
   },{threshold:.1,rootMargin:'0px 0px -60px 0px'});
   lines.forEach(function(l){obs.observe(l);});
+})();
+
+/* ── CONTACT FORM — Web3Forms AJAX ──────────────────────────────── */
+(function(){
+  var form=document.getElementById('contact-form');
+  if(!form)return;
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var btn=document.getElementById('form-btn');
+    var icon=document.getElementById('form-icon');
+    var txt=document.getElementById('form-text');
+    var msg=document.getElementById('form-msg');
+    btn.disabled=true;
+    btn.style.opacity='.65';
+    icon.textContent='hourglass_empty';
+    txt.textContent='Enviando…';
+    msg.style.display='none';
+    fetch('https://api.web3forms.com/submit',{method:'POST',body:new FormData(form)})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.success){
+        form.innerHTML='<div style="text-align:center;padding:3.5rem 1rem;">'
+          +'<span class="material-symbols-outlined" style="font-size:60px;color:#a875ff;display:block;margin:0 auto 1.5rem;filter:drop-shadow(0 0 18px rgba(168,117,255,.6))">check_circle</span>'
+          +'<h3 style="font-family:\'Playfair Display\',serif;font-size:1.75rem;color:#f8f5fa;margin-bottom:.75rem;">¡Mensaje enviado!</h3>'
+          +'<p style="color:#c4b5d4;font-weight:300;font-size:1rem;max-width:360px;margin:0 auto;line-height:1.7">Gracias por escribirme. Te responderé en cuanto pueda.</p>'
+          +'</div>';
+      } else {
+        btn.disabled=false;btn.style.opacity='1';
+        icon.textContent='send';txt.textContent='Enviar mensaje';
+        msg.style.cssText='display:block;background:rgba(220,50,50,.1);border:1px solid rgba(220,50,50,.3);color:#ff9999;';
+        msg.textContent='Error al enviar. Por favor, inténtalo de nuevo.';
+      }
+    })
+    .catch(function(){
+      btn.disabled=false;btn.style.opacity='1';
+      icon.textContent='send';txt.textContent='Enviar mensaje';
+      msg.style.cssText='display:block;background:rgba(220,50,50,.1);border:1px solid rgba(220,50,50,.3);color:#ff9999;';
+      msg.textContent='Error de conexión. Inténtalo más tarde.';
+    });
+  });
 })();
 </script>
 </body>
