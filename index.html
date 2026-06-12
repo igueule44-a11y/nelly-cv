@@ -57,7 +57,7 @@ h1,h2,h3,h4,h5,h6,.font-heading{font-family:"Playfair Display",serif}
 .material-symbols-outlined{font-variation-settings:"FILL" 0,"wght" 200,"GRAD" 0,"opsz" 24}
 .neon-icon{filter:drop-shadow(0 0 8px rgba(212,179,255,.6))}
 .neon-icon-lav{filter:drop-shadow(0 0 8px rgba(168,117,255,.6))}
-.glass-card{background:rgba(45,26,61,.3);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(157,123,176,.15);box-shadow:inset 0 2px 20px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.4)}
+.glass-card{background:rgba(45,26,61,.3);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(157,123,176,.15);box-shadow:inset 0 2px 20px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.4);position:relative;--sx:50%;--sy:50%;--so:0}
 .skill-tag{display:inline-flex;align-items:center;background:rgba(45,26,61,.5);border:1px solid rgba(157,123,176,.2);color:#c4b5d4;padding:6px 14px;border-radius:9999px;font-size:12px;font-weight:500;letter-spacing:.05em;transition:all .3s}
 .skill-tag:hover{border-color:rgba(168,117,255,.5);color:#f8f5fa;box-shadow:0 0 12px rgba(168,117,255,.2)}
 .timeline-line{width:1px;flex-shrink:0;background:linear-gradient(to bottom,rgba(168,117,255,.4),rgba(168,117,255,.05))}
@@ -189,9 +189,41 @@ footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(
 /* Children start hidden; JS stagger-reveals them one by one */
 .stagger-reveal>*{
   opacity:0;
-  transform:translateY(24px);
-  filter:blur(6px);
-  transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1),filter .7s cubic-bezier(.16,1,.3,1);
+  filter:blur(8px);
+  transition:opacity .75s cubic-bezier(.16,1,.3,1),filter .75s cubic-bezier(.16,1,.3,1);
+}
+
+/* ── GLASS-CARD — border beam (reuses --beam-angle + beam-rotate) ── */
+.glass-card::before{
+  content:"";
+  position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:conic-gradient(
+    from var(--beam-angle),
+    rgba(168,117,255,.03) 0deg,
+    rgba(168,117,255,.28) 55deg,
+    rgba(212,179,255,.45) 90deg,
+    rgba(168,117,255,.28) 125deg,
+    rgba(168,117,255,.03) 200deg,
+    rgba(168,117,255,.03) 360deg
+  );
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+  pointer-events:none;z-index:0;
+  animation:beam-rotate 11s linear infinite;
+}
+/* .glass-card cursor spotlight */
+.glass-card::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(380px circle at var(--sx) var(--sy),rgba(168,117,255,.08),transparent 65%);
+  opacity:var(--so);transition:opacity .35s;pointer-events:none;z-index:1;
+}
+
+/* ── CURSOR GLOW — lueur qui suit la souris sur tout le site ──────── */
+body{--mx:50vw;--my:50vh}
+body::after{
+  content:'';
+  position:fixed;inset:0;pointer-events:none;z-index:9997;
+  background:radial-gradient(700px circle at var(--mx) var(--my),rgba(168,117,255,.065),transparent 50%);
 }
 </style>
 </head>
@@ -835,7 +867,7 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
 
 /* ── CURSOR SPOTLIGHT on glass-card-gradient ─────────────────────── */
 (function(){
-  document.querySelectorAll('.glass-card-gradient').forEach(function(card){
+  document.querySelectorAll('.glass-card-gradient,.glass-card').forEach(function(card){
     card.addEventListener('mousemove',function(e){
       var r=card.getBoundingClientRect();
       var x=((e.clientX-r.left)/r.width*100).toFixed(1)+'%';
@@ -865,6 +897,22 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
   });
 })();
 
+/* ── CURSOR GLOW — gradient global qui suit la souris ────────────── */
+(function(){
+  var mx=window.innerWidth/2, my=window.innerHeight/2, pending=false;
+  document.addEventListener('mousemove',function(e){
+    mx=e.clientX; my=e.clientY;
+    if(!pending){
+      pending=true;
+      requestAnimationFrame(function(){
+        document.body.style.setProperty('--mx',mx+'px');
+        document.body.style.setProperty('--my',my+'px');
+        pending=false;
+      });
+    }
+  });
+})();
+
 /* ── STAGGER REVEAL ──────────────────────────────────────────────── */
 (function(){
   var seen=new WeakSet();
@@ -876,7 +924,6 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
         Array.from(container.children).forEach(function(child,i){
           setTimeout(function(){
             child.style.opacity='1';
-            child.style.transform='translateY(0)';
             child.style.filter='blur(0)';
           },i*130);
         });
