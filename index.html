@@ -33,7 +33,7 @@
 <link rel="apple-touch-icon" href="favicon-64.png"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lora:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lora:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script id="tailwind-config">
@@ -149,18 +149,19 @@ footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(
 /* Hero text rotate */
 #hero-rotate{display:inline-block;transition:opacity .3s ease,transform .3s cubic-bezier(.16,1,.3,1),filter .3s cubic-bezier(.16,1,.3,1)}
 
-/* Slogan typewriter */
-.hero-slogan{min-height:1.8em;display:flex;align-items:center;justify-content:center;gap:0}
-#slogan-text{font-family:"Lora",serif;font-style:italic;font-weight:400;font-size:1rem;line-height:1.6;
-  background:linear-gradient(135deg,#c4b5d4 0%,#e2c8ff 40%,#a875ff 70%,#d4b3ff 100%);
-  background-size:200% auto;
+/* Slogan typewriter — terminal style */
+.hero-slogan{min-height:3.2em;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+#slogan-text{font-family:'JetBrains Mono','Courier New',monospace;font-style:normal;font-weight:400;font-size:.9rem;line-height:1.65;
+  background:linear-gradient(90deg,#a875ff 0%,#e2c8ff 50%,#c084fc 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:gradient-shimmer 6s ease-in-out infinite alternate;
 }
-@media(min-width:768px){#slogan-text{font-size:1.15rem}}
+@media(min-width:768px){#slogan-text{font-size:1rem}}
 .slogan-cursor{display:inline-block;width:1.5px;height:1em;background:rgba(168,117,255,.7);
   border-radius:1px;margin-left:2px;vertical-align:middle;
   animation:cur-blink .75s steps(2) infinite}
+#slogan-prompt{display:none;font-family:'JetBrains Mono','Courier New',monospace;font-size:.9rem;
+  color:#a875ff;animation:cur-blink .9s steps(2) infinite}
+@media(min-width:768px){#slogan-prompt{font-size:1rem}}
 @keyframes cur-blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* Nav logo animated gradient */
@@ -270,7 +271,7 @@ textarea.form-input{line-height:1.65;resize:vertical;min-height:130px}
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#experiencia">Experiencia</a>
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#formacion">Formación</a>
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#contacto">Contacto</a>
-<a class="px-6 py-2.5 border border-glass-border text-soft-white text-[13px] tracking-[.1em] uppercase rounded hover:bg-glass-bg hover:border-violet-glow hover:shadow-neon-lavender transition-all duration-300 font-medium" href="cv-nelly-orozco.pdf" target="_blank">Descargar CV</a>
+<a class="px-6 py-2.5 border border-glass-border text-soft-white text-[13px] tracking-[.1em] uppercase rounded hover:bg-glass-bg hover:border-violet-glow hover:shadow-neon-lavender transition-all duration-300 font-medium" href="Nelly-Orozco-CV-v14.pdf" target="_blank">Descargar CV</a>
 </div>
 <button class="md:hidden text-soft-white p-2" onclick="document.getElementById('mob').classList.toggle('open')">
 <span class="material-symbols-outlined">menu</span>
@@ -283,7 +284,7 @@ textarea.form-input{line-height:1.65;resize:vertical;min-height:130px}
 <a class="text-muted-text text-sm" href="#experiencia">Experiencia</a>
 <a class="text-muted-text text-sm" href="#formacion">Formación</a>
 <a class="text-muted-text text-sm" href="#contacto">Contacto</a>
-<a class="text-soft-white text-sm border border-glass-border px-4 py-2 rounded w-fit" href="cv-nelly-orozco.pdf" download>Descargar CV</a>
+<a class="text-soft-white text-sm border border-glass-border px-4 py-2 rounded w-fit" href="Nelly-Orozco-CV-v14.pdf" download>Descargar CV</a>
 </div>
 </nav>
 
@@ -296,12 +297,12 @@ Madrid ·&nbsp;Open to work
 </span>
 <h1 class="font-heading text-[48px] md:text-[84px] leading-[1.1] gradient-text mb-3 pb-4 font-normal tracking-tight">Nelly Orozco</h1>
 <p class="font-body text-xl md:text-2xl text-muted-text mb-4 font-light tracking-wide"><span id="hero-rotate">Project Manager</span></p>
-<p class="hero-slogan mb-10"><span id="slogan-text"></span><span class="slogan-cursor" id="slogan-cursor"></span></p>
+<div class="hero-slogan mb-10"><p><span id="slogan-text"></span><span class="slogan-cursor" id="slogan-cursor"></span></p><p id="slogan-prompt">&gt; _</p></div>
 <div class="flex flex-col sm:flex-row items-center justify-center gap-5 mb-24">
 <a class="magnetic-btn w-full sm:w-auto px-8 py-4 bg-violet-glow text-rich-black text-sm uppercase tracking-wider rounded shadow-neon-lavender hover:shadow-[0_0_30px_rgba(168,117,255,.6)] flex items-center justify-center gap-2 font-semibold" href="#video">
 <span class="material-symbols-outlined">person</span>Más sobre mí
 </a>
-<a class="magnetic-btn w-full sm:w-auto px-8 py-4 border border-glass-border text-soft-white text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:border-electric-blue hover:text-electric-blue hover:shadow-neon-blue transition-colors duration-300 flex items-center justify-center gap-2 font-medium" href="cv-nelly-orozco.pdf" download>
+<a class="magnetic-btn w-full sm:w-auto px-8 py-4 border border-glass-border text-soft-white text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:border-electric-blue hover:text-electric-blue hover:shadow-neon-blue transition-colors duration-300 flex items-center justify-center gap-2 font-medium" href="Nelly-Orozco-CV-v14.pdf" download>
 <span class="material-symbols-outlined">download</span>Descargar CV
 </a>
 <a class="w-full sm:w-auto px-6 py-3 border border-glass-border text-muted-text text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:text-soft-white transition-all duration-300 flex items-center justify-center gap-3 font-medium" href="https://www.linkedin.com/in/nelly-orozco/" target="_blank">
@@ -845,7 +846,7 @@ Madrid ·&nbsp;Open to work
 <a class="w-full sm:w-auto px-8 py-4 border border-glass-border text-soft-white text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:border-electric-blue hover:text-electric-blue hover:shadow-neon-blue transition-all duration-300 flex items-center justify-center gap-2 font-medium" href="https://www.linkedin.com/in/nelly-orozco/" target="_blank">
 <span class="material-symbols-outlined text-[18px]">person</span>LinkedIn
 </a>
-<a class="w-full sm:w-auto px-8 py-4 border border-glass-border text-muted-text text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:text-soft-white transition-all duration-300 flex items-center justify-center gap-2 font-medium" href="cv-nelly-orozco.pdf" download>
+<a class="w-full sm:w-auto px-8 py-4 border border-glass-border text-muted-text text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:text-soft-white transition-all duration-300 flex items-center justify-center gap-2 font-medium" href="Nelly-Orozco-CV-v14.pdf" download>
 <span class="material-symbols-outlined text-[18px]">download</span>Descargar CV
 </a>
 </div>
@@ -859,7 +860,7 @@ Madrid ·&nbsp;Open to work
 <div class="flex gap-8">
 <a class="text-[13px] text-muted-text hover:text-soft-white transition-colors font-medium tracking-[.1em] uppercase" href="https://www.linkedin.com/in/nelly-orozco/" target="_blank">LinkedIn</a>
 <a class="text-[13px] text-muted-text hover:text-soft-white transition-colors font-medium tracking-[.1em] uppercase" href="mailto:nellyorozcocontreras@gmail.com">Email</a>
-<a class="text-[13px] text-muted-text hover:text-soft-white transition-colors font-medium tracking-[.1em] uppercase" href="cv-nelly-orozco.pdf" download>CV PDF</a>
+<a class="text-[13px] text-muted-text hover:text-soft-white transition-colors font-medium tracking-[.1em] uppercase" href="Nelly-Orozco-CV-v14.pdf" download>CV PDF</a>
 </div>
 </div>
 </footer>
@@ -925,14 +926,14 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
   },2800);
 })();
 
-/* ── SLOGAN TYPEWRITER ────────────────────────────────────────────── */
+/* ── SLOGAN TYPEWRITER — terminal style ──────────────────────────── */
 (function(){
-  var slogan='La PM que piensa en data, comunica en humano y automatiza con IA.';
+  var slogan='`La PM que piensa en data, comunica en humano y automatiza con IA.`';
   var el=document.getElementById('slogan-text');
   var cursor=document.getElementById('slogan-cursor');
+  var prompt=document.getElementById('slogan-prompt');
   if(!el)return;
   var i=0;
-  // Start typing after 1.4s (page settle)
   setTimeout(function(){
     var timer=setInterval(function(){
       if(i<slogan.length){
@@ -940,12 +941,13 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
         i++;
       } else {
         clearInterval(timer);
-        // Fade cursor out after typing completes
+        // Masquer le curseur bloc, afficher > _ en clignotement continu
         setTimeout(function(){
-          if(cursor){cursor.style.transition='opacity 1s';cursor.style.opacity='0';}
-        },2000);
+          if(cursor){cursor.style.display='none';}
+          if(prompt){prompt.style.display='block';}
+        },500);
       }
-    },42);
+    },38);
   },1400);
 })();
 
