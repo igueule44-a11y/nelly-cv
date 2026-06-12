@@ -44,8 +44,8 @@ html{background:linear-gradient(180deg,#0e081c 0%,#1a0d30 12%,#11081a 28%,#160b2
 body{background:transparent;color:#f8f5fa;font-family:"Plus Jakarta Sans",sans-serif}
 h1,h2,h3,h4,h5,h6,.font-heading{font-family:"Playfair Display",serif}
 .mesh-bg{position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 15% 50%,rgba(157,123,176,.18),transparent 40%),radial-gradient(circle at 85% 30%,rgba(168,117,255,.14),transparent 40%),radial-gradient(circle at 50% 80%,rgba(100,40,180,.10),transparent 35%);z-index:0;pointer-events:none}
-.reveal{opacity:0;transform:translateY(20px);transition:all .8s cubic-bezier(.16,1,.3,1)}
-.reveal.active{opacity:1;transform:translateY(0)}
+.reveal{opacity:0;transform:translateY(20px);filter:blur(8px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1),filter .9s cubic-bezier(.16,1,.3,1)}
+.reveal.active{opacity:1;transform:translateY(0);filter:blur(0)}
 .marquee-wrapper{overflow:hidden;white-space:nowrap;position:relative;width:100%}
 .marquee-wrapper::before,.marquee-wrapper::after{content:"";position:absolute;top:0;width:100px;height:100%;z-index:2}
 .marquee-wrapper::before{left:0;background:linear-gradient(to right,#11081a,transparent)}
@@ -78,12 +78,18 @@ footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(
 #mob.bg-rich-black{background:rgba(17,8,26,.95)!important}
 
 /* ── GRADIENT ENHANCEMENTS ───────────────────────────────────────────────── */
-/* 1. Gradient text — titre principal */
+/* 1. Gradient text — titre principal + shimmer */
 .gradient-text{
-  background:linear-gradient(135deg,#f8f5fa 0%,#e2c8ff 35%,#a875ff 65%,#d4a0ff 100%);
+  background:linear-gradient(135deg,#f8f5fa 0%,#e2c8ff 25%,#a875ff 50%,#d4a0ff 75%,#f8f5fa 100%);
+  background-size:200% auto;
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
   background-clip:text;
+  animation:gradient-shimmer 7s ease-in-out infinite alternate;
+}
+@keyframes gradient-shimmer{
+  0%{background-position:left center}
+  100%{background-position:right center}
 }
 /* 2. Aurora hero: mesh gradient animé en arrière-plan */
 .aurora-hero{
@@ -110,14 +116,26 @@ footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(
   box-shadow:inset 0 2px 20px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.4),0 0 0 1px rgba(168,117,255,.15);
   position:relative;
 }
+/* @property needed for conic-gradient angle animation */
+@property --beam-angle{syntax:'<angle>';initial-value:0deg;inherits:false}
 .glass-card-gradient::before{
   content:"";
   position:absolute;inset:0;border-radius:inherit;padding:1px;
-  background:linear-gradient(135deg,rgba(168,117,255,.3),rgba(212,179,255,.1),rgba(168,117,255,.2));
+  background:conic-gradient(
+    from var(--beam-angle),
+    rgba(168,117,255,.04) 0deg,
+    rgba(168,117,255,.35) 55deg,
+    rgba(212,179,255,.6) 90deg,
+    rgba(168,117,255,.35) 125deg,
+    rgba(168,117,255,.04) 200deg,
+    rgba(168,117,255,.04) 360deg
+  );
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite:xor;mask-composite:exclude;
   pointer-events:none;
+  animation:beam-rotate 8s linear infinite;
 }
+@keyframes beam-rotate{to{--beam-angle:360deg}}
 /* 4. Gradient section divider */
 .section-gradient-top{
   background:linear-gradient(180deg,rgba(45,26,61,.25) 0%,transparent 100%);
@@ -129,7 +147,7 @@ footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(
 
 /* ── ANIMATION COMPONENTS ──────────────────────────────────────── */
 /* Hero text rotate */
-#hero-rotate{display:inline-block;transition:opacity .3s ease,transform .3s cubic-bezier(.16,1,.3,1)}
+#hero-rotate{display:inline-block;transition:opacity .3s ease,transform .3s cubic-bezier(.16,1,.3,1),filter .3s cubic-bezier(.16,1,.3,1)}
 
 /* Aurora canvas */
 #aurora-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
@@ -166,6 +184,15 @@ footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(
 
 /* Magnetic buttons */
 .magnetic-btn{transition:transform .45s cubic-bezier(.16,1,.3,1),box-shadow .3s,background .3s,color .3s,border-color .3s}
+
+/* ── STAGGER REVEAL ──────────────────────────────────────────────── */
+/* Children start hidden; JS stagger-reveals them one by one */
+.stagger-reveal>*{
+  opacity:0;
+  transform:translateY(24px);
+  filter:blur(6px);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1),filter .7s cubic-bezier(.16,1,.3,1);
+}
 </style>
 </head>
 <body class="bg-rich-black text-soft-white antialiased overflow-x-hidden">
@@ -412,7 +439,7 @@ Madrid ·&nbsp;Open to work
 <p class="text-lg text-muted-text leading-[1.8] font-light">Por eso estoy terminando un <span class="text-soft-white font-medium">Máster en Project Management</span>. Mexicana establecida en Madrid, bilingüe español&nbsp;/&nbsp;inglés C1.</p>
 </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-reveal">
 <div class="glass-card-gradient p-10 rounded-2xl hover:-translate-y-2 hover:shadow-neon-lavender transition-all duration-500 group relative overflow-hidden">
 <div class="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-violet-glow/0 via-violet-glow/50 to-violet-glow/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 <div class="w-16 h-16 rounded-full bg-deep-plum/50 border border-glass-border flex items-center justify-center mb-8 group-hover:bg-deep-plum transition-colors shadow-sunken">
@@ -465,7 +492,7 @@ Madrid ·&nbsp;Open to work
 </section>
 
 <!-- ══════════════════════════════════════════ PROYECTOS ══ -->
-<section class="py-16 md:py-32 bg-rich-black relative" id="proyectos">
+<section class="py-16 md:py-32 bg-rich-black relative" id="proyectos" style="display:none">
 <div class="max-w-[1200px] mx-auto px-5 md:px-6">
 
   <!-- Header -->
@@ -559,7 +586,7 @@ Madrid ·&nbsp;Open to work
 <p class="text-[12px] text-soft-lavender uppercase tracking-[.25em] font-semibold mb-3">Qué sé hacer</p>
 <h2 class="font-heading text-3xl md:text-5xl gradient-text font-bold pb-3">Competencias</h2>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-reveal">
 <div class="glass-card p-8 rounded-2xl">
 <div class="flex items-center gap-3 mb-6"><span class="material-symbols-outlined text-violet-glow neon-icon-lav text-[20px]">task_alt</span><p class="text-[11px] text-soft-lavender uppercase tracking-[.2em] font-semibold">Project Management</p></div>
 <div class="flex flex-wrap gap-2"><span class="skill-tag">Gestión de proyectos</span><span class="skill-tag">Agile / Scrum</span><span class="skill-tag">Planificación</span><span class="skill-tag">Gestión de riesgos</span><span class="skill-tag">PMO</span><span class="skill-tag">Retroplanning</span></div>
@@ -795,11 +822,13 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
   setInterval(function(){
     el.style.opacity='0';
     el.style.transform='translateY(-8px)';
+    el.style.filter='blur(4px)';
     setTimeout(function(){
       i=(i+1)%labels.length;
       el.textContent=labels[i];
       el.style.opacity='1';
       el.style.transform='translateY(0)';
+      el.style.filter='blur(0)';
     },320);
   },2800);
 })();
@@ -834,6 +863,28 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
       btn.style.transform='translate(0,0)';
     });
   });
+})();
+
+/* ── STAGGER REVEAL ──────────────────────────────────────────────── */
+(function(){
+  var seen=new WeakSet();
+  function checkStagger(){
+    document.querySelectorAll('.stagger-reveal').forEach(function(container){
+      if(seen.has(container))return;
+      if(container.getBoundingClientRect().top<window.innerHeight-80){
+        seen.add(container);
+        Array.from(container.children).forEach(function(child,i){
+          setTimeout(function(){
+            child.style.opacity='1';
+            child.style.transform='translateY(0)';
+            child.style.filter='blur(0)';
+          },i*130);
+        });
+      }
+    });
+  }
+  window.addEventListener('scroll',checkStagger);
+  checkStagger();
 })();
 
 /* ── METRIC COUNTERS ─────────────────────────────────────────────── */
