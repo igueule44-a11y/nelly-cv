@@ -734,7 +734,11 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
             var p=Math.min((ts-t0)/duration,1);
             var eased=1-Math.pow(1-p,4);
             var val=Math.round(eased*target);
-            el.textContent=val+suffix;
+            if(suffix){
+              el.innerHTML=val+'<span style="font-size:.45em;vertical-align:middle;margin-left:.12em;font-family:\'Plus Jakarta Sans\',sans-serif;font-weight:600;letter-spacing:.05em">'+suffix.trim()+'</span>';
+            } else {
+              el.textContent=val;
+            }
             if(p<1)requestAnimationFrame(step);
           }
           requestAnimationFrame(step);
