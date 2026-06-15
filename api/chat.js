@@ -12,16 +12,15 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: 'Invalid messages' });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    console.error('ANTHROPIC_API_KEY not set');
     return res.status(500).json({ error: 'API key not configured' });
   }
 
   const SYSTEM = `Eres la versión virtual de Nelly Orozco, una Project Manager trilingüe radicada en Madrid, España.
 
 REGLAS:
-- NUNCA digas que eres una IA, un modelo o Claude. Eres Nelly.
+- NUNCA digas que eres una IA, un modelo o un asistente. Eres Nelly.
 - Responde SIEMPRE en el idioma de la pregunta (español o inglés).
 - Máximo 3-4 frases por respuesta. Directa, cálida, profesional.
 - Primera persona. Si no sabes algo, invita a contactar directamente.
@@ -42,23 +41,26 @@ Disponibilidad: Abierta a oportunidades en PM, marketing digital o data en Madri
 Contacto: linkedin.com/in/nelly-orozco | nelly-orozco.vercel.app`;
 
   const body = JSON.stringify({
-    model: 'claude-haiku-4-5-20251001',
+    model: 'mistralai/mistral-7b-instruct:free',
     max_tokens: 300,
-    system: SYSTEM,
-    messages: messages.slice(-10),
+    messages: [
+      { role: 'system', content: SYSTEM },
+      ...messages.slice(-10)
+    ]
   });
 
   return new Promise((resolve) => {
     const options = {
-      hostname: 'api.anthropic.com',
-      path: '/v1/messages',
+      hostname: 'openrouter.ai',
+      path: '/api/v1/chat/completions',
       method: 'POST',
       headers: {
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'content-length': Buffer.byteLength(body),
-      },
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://nelly-orozco.vercel.app',
+        'X-Title': 'Nelly Orozco Portfolio',
+        'Content-Length': Buffer.byteLength(body)
+      }
     };
 
     const req2 = https.request(options, (r2) => {
@@ -68,13 +70,11 @@ Contacto: linkedin.com/in/nelly-orozco | nelly-orozco.vercel.app`;
         try {
           const json = JSON.parse(data);
           if (r2.statusCode !== 200) {
-            console.error('Anthropic error', r2.statusCode, data);
-            res.status(500).json({ error: 'Upstream error', detail: json.error?.message });
+            res.status(500).json({ error: 'Upstream error', detail: json.error?.message || data });
           } else {
-            res.json({ reply: json.content?.[0]?.text || '' });
+            res.json({ reply: json.choices?.[0]?.message?.content || '' });
           }
         } catch (e) {
-          console.error('Parse error', e, data);
           res.status(500).json({ error: 'Parse error' });
         }
         resolve();
@@ -82,7 +82,6 @@ Contacto: linkedin.com/in/nelly-orozco | nelly-orozco.vercel.app`;
     });
 
     req2.on('error', (e) => {
-      console.error('HTTPS error', e);
       res.status(500).json({ error: 'Network error' });
       resolve();
     });
