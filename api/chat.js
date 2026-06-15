@@ -1,9 +1,7 @@
 const https = require('https');
 
 const MODELS = [
-  'google/gemma-4-31b-it:free',
-  'deepseek/deepseek-v4-flash:free',
-  'moonshotai/kimi-k2.6:free',
+  'deepseek/deepseek-v4-flash',
 ];
 
 const SYSTEM = `Eres la versión virtual de Nelly Orozco, una Project Manager trilingüe radicada en Madrid, España.
