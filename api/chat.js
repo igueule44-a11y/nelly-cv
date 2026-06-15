@@ -41,7 +41,7 @@ Disponibilidad: Abierta a oportunidades en PM, marketing digital o data en Madri
 Contacto: linkedin.com/in/nelly-orozco | nelly-orozco.vercel.app`;
 
   const body = JSON.stringify({
-    model: 'mistralai/mistral-7b-instruct:free',
+    model: 'meta-llama/llama-3.1-8b-instruct:free',
     max_tokens: 300,
     messages: [
       { role: 'system', content: SYSTEM },
