@@ -1,23 +1,12 @@
 const https = require('https');
 
-module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  if (req.method === 'OPTIONS') return res.status(200).end();
-  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+const MODELS = [
+  'google/gemma-4-31b-it:free',
+  'deepseek/deepseek-v4-flash:free',
+  'moonshotai/kimi-k2.6:free',
+];
 
-  const { messages } = req.body || {};
-  if (!messages || !Array.isArray(messages)) {
-    return res.status(400).json({ error: 'Invalid messages' });
-  }
-
-  const apiKey = process.env.OPENROUTER_API_KEY;
-  if (!apiKey) {
-    return res.status(500).json({ error: 'API key not configured' });
-  }
-
-  const SYSTEM = `Eres la versión virtual de Nelly Orozco, una Project Manager trilingüe radicada en Madrid, España.
+const SYSTEM = `Eres la versión virtual de Nelly Orozco, una Project Manager trilingüe radicada en Madrid, España.
 
 REGLAS:
 - NUNCA digas que eres una IA, un modelo o un asistente. Eres Nelly.
@@ -40,16 +29,17 @@ Herramientas: Notion, Trello, Asana, Python, Google Analytics, Power BI, Claude 
 Disponibilidad: Abierta a oportunidades en PM, marketing digital o data en Madrid. Permiso de trabajo en vigor.
 Contacto: linkedin.com/in/nelly-orozco | nelly-orozco.vercel.app`;
 
-  const body = JSON.stringify({
-    model: 'google/gemma-4-31b-it:free',
-    max_tokens: 300,
-    messages: [
-      { role: 'system', content: SYSTEM },
-      ...messages.slice(-10)
-    ]
-  });
+function callModel(model, messages, apiKey) {
+  return new Promise((resolve, reject) => {
+    const body = JSON.stringify({
+      model,
+      max_tokens: 300,
+      messages: [
+        { role: 'system', content: SYSTEM },
+        ...messages.slice(-10)
+      ]
+    });
 
-  return new Promise((resolve) => {
     const options = {
       hostname: 'openrouter.ai',
       path: '/api/v1/chat/completions',
@@ -63,30 +53,56 @@ Contacto: linkedin.com/in/nelly-orozco | nelly-orozco.vercel.app`;
       }
     };
 
-    const req2 = https.request(options, (r2) => {
+    const req = https.request(options, (r) => {
       let data = '';
-      r2.on('data', chunk => { data += chunk; });
-      r2.on('end', () => {
+      r.on('data', chunk => { data += chunk; });
+      r.on('end', () => {
         try {
           const json = JSON.parse(data);
-          if (r2.statusCode !== 200) {
-            res.status(500).json({ error: 'Upstream error', detail: json.error?.message || data });
+          if (r.statusCode !== 200) {
+            reject(new Error(json.error?.message || `HTTP ${r.statusCode}`));
           } else {
-            res.json({ reply: json.choices?.[0]?.message?.content || '' });
+            const reply = json.choices?.[0]?.message?.content;
+            if (!reply) reject(new Error('Empty reply'));
+            else resolve(reply);
           }
         } catch (e) {
-          res.status(500).json({ error: 'Parse error' });
+          reject(new Error('Parse error'));
         }
-        resolve();
       });
     });
 
-    req2.on('error', (e) => {
-      res.status(500).json({ error: 'Network error' });
-      resolve();
-    });
-
-    req2.write(body);
-    req2.end();
+    req.on('error', (e) => reject(new Error('Network error')));
+    req.write(body);
+    req.end();
   });
+}
+
+module.exports = async (req, res) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const { messages } = req.body || {};
+  if (!messages || !Array.isArray(messages)) {
+    return res.status(400).json({ error: 'Invalid messages' });
+  }
+
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
+
+  let lastError = '';
+  for (const model of MODELS) {
+    try {
+      const reply = await callModel(model, messages, apiKey);
+      return res.json({ reply });
+    } catch (e) {
+      lastError = e.message;
+      // try next model
+    }
+  }
+
+  return res.status(500).json({ error: 'All models failed', detail: lastError });
 };
