@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Stack PM + IA — Nelly Orozco</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,200,0,0">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0618;
+      --bg2: #130a22;
+      --violet: #a875ff;
+      --violet-dim: rgba(168,117,255,.15);
+      --violet-border: rgba(168,117,255,.25);
+      --text: #f8f5fa;
+      --muted: rgba(212,179,255,.65);
+      --soft: #d4b3ff;
+      --card: rgba(157,123,176,.07);
+      --card-border: rgba(157,123,176,.15);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: linear-gradient(180deg,#0e081c 0%,#1a0d30 12%,#11081a 28%,#160b28 45%,#11081a 60%,#190d2c 78%,#11081a 100%);
+      min-height: 100vh;
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(13,6,24,.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 0 clamp(20px,5vw,80px);
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      width: 32px; height: 32px; border-radius: 50%;
+      object-fit: cover; object-position: center top;
+      border: 2px solid rgba(168,117,255,.5);
+    }
+    .nav-logo span {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px; font-weight: 600;
+      background: linear-gradient(135deg,#f8f5fa 0%,#e2c8ff 30%,#a875ff 60%,#f8f5fa 100%);
+      background-size: 250% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: shimmer 5s ease-in-out infinite alternate;
+    }
+    .nav-cta {
+      display: flex; align-items: center; gap: 6px;
+      background: linear-gradient(135deg,#a875ff,#8b5cf6);
+      color: #fff; text-decoration: none;
+      font-size: 12px; font-weight: 600;
+      padding: 7px 16px; border-radius: 20px;
+      letter-spacing: .04em;
+      transition: opacity .2s;
+    }
+    .nav-cta:hover { opacity: .85; }
+
+    /* ── LAYOUT ──────────────────────────────────────────── */
+    .wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: clamp(40px,8vw,80px) clamp(20px,5vw,40px);
+    }
+
+    /* ── HERO ─────────────────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      font-size: 11px; font-weight: 600; letter-spacing: .25em;
+      color: var(--violet); text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(34px,6vw,64px);
+      font-weight: 400; line-height: 1.1;
+      padding-bottom: .12em;
+      background: linear-gradient(135deg,#f8f5fa 0%,#e2c8ff 25%,#a875ff 50%,#d4b3ff 75%,#f8f5fa 100%);
+      background-size: 250% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: shimmer 5s ease-in-out infinite alternate;
+      margin-bottom: 16px;
+    }
+    .hero-sub {
+      font-size: clamp(15px,2.2vw,19px);
+      color: var(--muted); font-weight: 300;
+      margin-bottom: 32px; max-width: 600px;
+    }
+
+    /* ── CREDENTIALS ─────────────────────────────────────── */
+    .credentials {
+      background: var(--card);
+      border: 1px solid var(--violet-border);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 40px;
+    }
+    .credentials p {
+      font-size: 13px; color: var(--soft);
+      line-height: 1.9; font-weight: 400;
+    }
+    .credentials p span { color: var(--violet); font-weight: 600; }
+
+    /* ── PROMISE BOX ─────────────────────────────────────── */
+    .promise {
+      background: linear-gradient(135deg,rgba(168,117,255,.12),rgba(139,92,246,.06));
+      border: 1px solid rgba(168,117,255,.35);
+      border-radius: 16px; padding: 28px 30px;
+      margin-bottom: 60px;
+    }
+    .promise .icon { font-size: 28px; margin-bottom: 10px; }
+    .promise h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px; color: var(--text);
+      margin-bottom: 12px;
+    }
+    .promise p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+    /* ── SECTION TITLES ──────────────────────────────────── */
+    .part-label {
+      font-size: 11px; font-weight: 600; letter-spacing: .28em;
+      color: var(--violet); text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(24px,4vw,36px); font-weight: 400;
+      color: var(--text); margin-bottom: 24px; line-height: 1.2;
+    }
+    .section { margin-bottom: 72px; }
+
+    /* ── CALLOUT BOXES ───────────────────────────────────── */
+    .callout {
+      border-radius: 12px; padding: 18px 22px;
+      margin: 24px 0; font-size: 13.5px; line-height: 1.7;
+    }
+    .callout.red {
+      background: rgba(255,80,80,.06);
+      border: 1px solid rgba(255,80,80,.2);
+      color: rgba(255,200,200,.8);
+    }
+    .callout.violet {
+      background: var(--violet-dim);
+      border: 1px solid var(--violet-border);
+      color: var(--soft);
+    }
+    .callout.green {
+      background: rgba(80,220,130,.06);
+      border: 1px solid rgba(80,220,130,.2);
+      color: rgba(180,255,210,.8);
+    }
+    .callout.orange {
+      background: rgba(255,160,60,.06);
+      border: 1px solid rgba(255,160,60,.2);
+      color: rgba(255,210,160,.8);
+    }
+    .callout strong { display: block; margin-bottom: 6px; font-weight: 700; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+
+    /* ── PROMPT BLOCK ────────────────────────────────────── */
+    .prompt-block {
+      background: rgba(10,5,20,.7);
+      border: 1px solid rgba(168,117,255,.3);
+      border-left: 3px solid var(--violet);
+      border-radius: 10px; padding: 20px 22px;
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+      font-size: 13px; color: #c9b3e8;
+      line-height: 1.75;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .prompt-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px; font-weight: 600; letter-spacing: .15em;
+      color: var(--violet); text-transform: uppercase;
+      margin-bottom: 8px; display: block;
+    }
+
+    /* ── STEP CARD ───────────────────────────────────────── */
+    .step {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 28px 30px;
+      margin-bottom: 28px;
+      transition: border-color .3s;
+    }
+    .step:hover { border-color: var(--violet-border); }
+    .step-header {
+      display: flex; align-items: flex-start; gap: 16px;
+      margin-bottom: 18px;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg,#a875ff,#8b5cf6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 700; color: #fff;
+    }
+    .step h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px; font-weight: 400; color: var(--text);
+      line-height: 1.2; padding-top: 4px;
+    }
+    .step-tool {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(168,117,255,.1);
+      border: 1px solid rgba(168,117,255,.2);
+      border-radius: 20px; padding: 3px 10px;
+      font-size: 11px; font-weight: 600;
+      color: var(--violet); letter-spacing: .06em;
+      margin-bottom: 14px;
+    }
+    .step p { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 14px; }
+    .step p:last-child { margin-bottom: 0; }
+
+    /* ── DIVIDER ─────────────────────────────────────────── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--card-border);
+      margin: 60px 0;
+    }
+
+    /* ── REGLAS ──────────────────────────────────────────── */
+    .regla {
+      display: flex; gap: 16px; align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .regla-icon {
+      flex-shrink: 0;
+      width: 28px; height: 28px; border-radius: 8px;
+      background: rgba(168,117,255,.15);
+      border: 1px solid rgba(168,117,255,.3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--violet); font-size: 14px;
+    }
+    .regla-text { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .regla-text strong { color: var(--text); font-weight: 600; display: block; margin-bottom: 2px; }
+
+    /* ── CTA FINAL ───────────────────────────────────────── */
+    .cta-section {
+      background: linear-gradient(135deg,rgba(168,117,255,.12),rgba(139,92,246,.06));
+      border: 1px solid rgba(168,117,255,.3);
+      border-radius: 20px; padding: 40px 36px;
+      text-align: center; margin-bottom: 40px;
+    }
+    .cta-section h2 {
+      font-size: clamp(22px,3.5vw,32px);
+      margin-bottom: 12px;
+    }
+    .cta-section p { font-size: 15px; color: var(--muted); margin-bottom: 32px; }
+
+    .options { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media(max-width: 520px) { .options { grid-template-columns: 1fr; } }
+
+    .option {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px; padding: 22px 20px;
+      text-align: left;
+    }
+    .option.featured { border-color: rgba(168,117,255,.4); }
+    .option-label {
+      font-size: 11px; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; margin-bottom: 10px;
+      display: block;
+    }
+    .option-label.a { color: var(--muted); }
+    .option-label.b { color: var(--violet); }
+    .option h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px; color: var(--text);
+      margin-bottom: 10px; line-height: 1.3;
+    }
+    .option p { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+    .btn-calendly {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: linear-gradient(135deg,#a875ff,#8b5cf6);
+      color: #fff; text-decoration: none;
+      font-size: 14px; font-weight: 700;
+      padding: 14px 28px; border-radius: 30px;
+      margin-top: 28px;
+      transition: opacity .2s, transform .2s;
+      box-shadow: 0 0 24px rgba(168,117,255,.35);
+    }
+    .btn-calendly:hover { opacity: .9; transform: scale(1.03); }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 40px 20px 60px;
+      border-top: 1px solid var(--card-border);
+    }
+    footer p { font-size: 12px; color: rgba(212,179,255,.35); }
+    footer a { color: var(--violet); text-decoration: none; }
+
+    /* ── ANIMATION ───────────────────────────────────────── */
+    @keyframes shimmer {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    /* ── UTILS ───────────────────────────────────────────── */
+    .emoji { font-style: normal; }
+    .highlight { color: var(--violet); font-weight: 600; }
+    ul.check { list-style: none; padding: 0; }
+    ul.check li {
+      font-size: 13.5px; color: var(--muted);
+      padding: 5px 0 5px 22px; position: relative;
+      line-height: 1.65;
+    }
+    ul.check li::before { content: "→"; position: absolute; left: 0; color: var(--violet); }
+    .material-symbols-outlined {
+      font-family: 'Material Symbols Outlined';
+      font-size: 16px; vertical-align: middle;
+      font-variation-settings: 'FILL' 0,'wght' 200,'GRAD' 0,'opsz' 24;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="https://nelly-orozco.vercel.app">
+    <img src="nelly-linkedin.jpg" alt="Nelly Orozco">
+    <span>Nelly Orozco</span>
+  </a>
+  <a class="nav-cta" href="https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call" target="_blank">
+    <span class="material-symbols-outlined">calendar_month</span>
+    Reservar llamada
+  </a>
+</nav>
+
+<div class="wrapper">
+
+  <!-- ── HERO ────────────────────────────────────────────── -->
+  <span class="badge">Case Study · Productividad PM</span>
+  <h1>El Stack PM + IA</h1>
+  <p class="hero-sub">Cómo gestiono proyectos complejos el doble de rápido con un sistema de IA que construí en 6 meses — sin código, sin agencia, sin herramientas de pago.</p>
+
+  <div class="credentials">
+    <p>
+      <span>→</span> +5 años gestionando proyectos de impacto (Gobierno Federal de México · Madrid)<br>
+      <span>→</span> Trilingüe : español nativo, inglés C1 Cambridge, francés A2<br>
+      <span>→</span> Stack IA completo operativo en 6 meses · 0 agencia · 0 desarrollo externo<br>
+      <span>→</span> Actualmente : PM en Gold Millennium Group Madrid, clientes Golden Visa, ERP Wolters Kluwer
+    </p>
+  </div>
+
+  <div class="promise">
+    <div class="icon">🔥</div>
+    <h3>Un sistema completo. 7 fases concretas. 0 consultora.</h3>
+    <p>Esta guía te da el workflow exacto que uso para llevar un proyecto de la reunión de kick-off a la entrega final — con menos reuniones, menos caos, y más visibilidad para los stakeholders. Todos los prompts están dentro, listos para copiar y adaptar a tu contexto.</p>
+  </div>
+
+  <!-- ── PART 1 : FILOSOFÍA ────────────────────────────── -->
+  <div class="section">
+    <p class="part-label">🧠 Part 1</p>
+    <h2>La filosofía (lo que el 80% de los PM ignoran)</h2>
+
+    <p style="font-size:15px;color:var(--muted);margin-bottom:20px;">
+      La mayoría de los project managers tienen el mismo reflejo : abrir Jira, crear tareas, asignar personas. Resultado : un backlog enorme que nadie mira, reuniones de seguimiento que no avanzan, y un proyecto que siempre va "bien" hasta que de repente no.
+    </p>
+
+    <div class="callout red">
+      <strong>🚫 El error</strong>
+      Tratar las herramientas como el sistema. Tienes Notion + Trello + Slack + email + Excel. Nada habla con nada. Produces movimiento, no avance. Tienes actividad, no visibilidad.
+    </div>
+
+    <p style="font-size:15px;color:var(--muted);margin:20px 0;">
+      El shift que lo cambia todo es simple : <span class="highlight">la IA no es una herramienta más que añadir a tu stack.</span> Es la capa que conecta y procesa todo lo demás. No automatizas tareas. Automatizas la fricción — el tiempo que pierdes entre reunión y acta, entre dato y decisión, entre update y reporte.
+    </p>
+
+    <div class="callout violet">
+      <strong>💡 Principio fundamental</strong>
+      Un buen sistema PM no reduce el trabajo. Reduce el ruido. El objetivo no es trabajar menos — es que cada hora de trabajo genere una decisión real o un avance visible. La IA es el filtro que separa el ruido de la señal.
+    </div>
+
+    <p style="font-size:14px;color:var(--muted);margin-top:20px;">
+      Antes de enseñarte las 7 fases, aquí está el brief narrativo que uso para enmarcar cualquier proyecto — y que reinyecto en cada prompt de IA que genero durante el ciclo de vida del proyecto.
+    </p>
+
+    <span class="prompt-label">📋 Brief narrativo de proyecto (copia y adapta)</span>
+    <div class="prompt-block">[NOMBRE DEL PROYECTO] es un proyecto de [tipo] para [cliente/equipo], cuyo objetivo real no es [entregable técnico] sino [impacto humano o de negocio concreto].
+
+El reto principal no es técnico — es de coordinación y comunicación : [describe el problema humano real : silos, resistencia al cambio, falta de visibilidad, deadlines irreales, etc.].
+
+El proyecto tiene éxito cuando [describe el estado final en términos que un no-técnico entendería]. El KPI clave que importa a los stakeholders es [1 métrica concreta].
+
+Inyecta este brief en cada interacción con la IA a lo largo del proyecto.</div>
+
+    <div class="callout green">
+      <strong>⚡ Acción inmediata</strong>
+      Antes de abrir cualquier herramienta, escribe este brief para tu proyecto actual. 3 párrafos. Lo vas a reinyectar en cada uno de los 7 prompts que vienen. Es el hilo conductor de todo.
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── PART 2 : LAS 7 FASES ──────────────────────────── -->
+  <div class="section">
+    <p class="part-label">🎬 Part 2</p>
+    <h2>El case study en 7 fases (con prompts)</h2>
+
+    <!-- FASE 1 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <h3>Kick-off estructurado : del caos al brief en 20 minutos</h3>
+      </div>
+      <div class="step-tool"><span class="material-symbols-outlined">smart_toy</span> Claude / ChatGPT</div>
+      <p>La reunión de kick-off es donde se pierden el 70% de los proyectos — todos hablan, nadie escucha lo mismo, y el acta queda sin escribir 48h. Uso la IA para transformar mis notas brutas de la reunión en un brief ejecutivo en minutos.</p>
+
+      <span class="prompt-label">Prompt — Estructurar kick-off</span>
+      <div class="prompt-block">Eres un experto en project management. Aquí tienes mis notas brutas de la reunión de kick-off : [pega tus notas].
+
+A partir de esto, genera :
+1. Un resumen ejecutivo de 5 líneas (para stakeholders que no estuvieron)
+2. Los 3 objetivos principales del proyecto con su KPI de éxito
+3. Los riesgos identificados (menciona explícitamente lo que NO se dijo pero debería preocuparnos)
+4. Los próximos 3 pasos con responsable y fecha
+
+Formato : directo, sin relleno. El tono es profesional pero humano.</div>
+
+      <div class="callout orange">
+        <strong>💡 Tip</strong>
+        Punto fuerte de la IA : detecta lo que NO se dijo en la reunión. Los riesgos implícitos. Siempre le pido explícitamente que me liste las "señales de alarma que nadie verbalizó". Es donde más valor genera.
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <h3>Notion como cerebro del proyecto</h3>
+      </div>
+      <div class="step-tool"><span class="material-symbols-outlined">hub</span> Notion + IA</div>
+      <p>No uso Notion como una libreta bonita. Lo uso como un sistema vivo : una base de datos maestra que conecta tareas, decisiones, documentos, y personas. La arquitectura importa más que el contenido.</p>
+
+      <p>Mi estructura mínima para cualquier proyecto :</p>
+      <ul class="check" style="margin-bottom:16px;">
+        <li><strong>Dashboard del proyecto</strong> — visión 360 en una sola página : estado, KPIs, próximos hitos, riesgos activos</li>
+        <li><strong>Base de decisiones</strong> — cada decisión tomada con fecha, contexto, y quién la tomó. Cuando alguien pregunta "¿por qué hicimos X?", la respuesta está en 2 clics</li>
+        <li><strong>Mapa de stakeholders</strong> — quién es, qué quiere, cómo prefiere comunicar, nivel de influencia</li>
+        <li><strong>Registro de riesgos</strong> — actualizado en cada reunión de seguimiento, con probabilidad e impacto</li>
+      </ul>
+
+      <span class="prompt-label">Prompt — Arquitectura Notion</span>
+      <div class="prompt-block">Soy PM de un proyecto de [tipo] de [duración] semanas. Equipo de [N] personas. El cliente principal es [perfil].
+
+Diseña la arquitectura Notion mínima viable para gestionar este proyecto : las bases de datos necesarias, sus propiedades clave, y las vistas más útiles para el PM y para el cliente. Prioriza la simplicidad sobre la completitud — solo lo que se va a usar semana a semana.</div>
+
+      <div class="callout green">
+        <strong>⚡ Acción inmediata</strong>
+        Genera esta arquitectura con la IA ANTES de empezar el proyecto. El coste de cambiar la estructura a mitad es mucho más alto que los 20 minutos de planificación inicial.
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <h3>Reuniones que no roban el día</h3>
+      </div>
+      <div class="step-tool"><span class="material-symbols-outlined">forum</span> Claude · Actas automáticas</div>
+      <p>El problema no es la reunión. Es el tiempo que se pierde antes (prep), durante (divagaciones) y después (el acta que nadie escribe). Uso la IA en las tres fases.</p>
+
+      <p><span class="highlight">Antes :</span> genero la agenda con la IA a partir del estado del proyecto. <span class="highlight">Durante :</span> tomo notas brutas sin formato. <span class="highlight">Después :</span> las paso por el prompt y tengo el acta lista en 3 minutos.</p>
+
+      <span class="prompt-label">Prompt — Acta de reunión</span>
+      <div class="prompt-block">Eres el PM del proyecto [nombre]. Aquí están mis notas brutas de la reunión de seguimiento : [pega tus notas].
+
+Genera el acta oficial con :
+- Asistentes y fecha
+- Decisiones tomadas (solo las definitivas, no las discutidas)
+- Acciones : cada una con responsable, fecha límite, y qué se bloquea si no se hace
+- Puntos pendientes para la próxima reunión
+- Riesgos nuevos identificados durante la sesión
+
+Tono : profesional y directo. Máximo 1 página.</div>
+
+      <div class="callout violet">
+        <strong>💡 Regla de oro</strong>
+        Una reunión sin acta no ocurrió. Una acta sin responsable y fecha no sirve. La IA elimina la fricción de escribirla — lo que elimina la excusa de no hacerlo.
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">4</div>
+        <h3>Reporting automático : del dato a la decisión</h3>
+      </div>
+      <div class="step-tool"><span class="material-symbols-outlined">monitoring</span> Python · Google Analytics · Power BI</div>
+      <p>El reporting manual es el mayor ladrón de tiempo para un PM. Extraer datos, formatearlos, interpretarlos, y presentarlos puede llevar horas cada semana. Lo automaticé completamente.</p>
+
+      <p>Mi workflow :</p>
+      <ul class="check" style="margin-bottom:16px;">
+        <li>Python extrae los datos de Google Analytics / ERP / base de datos del cliente de forma automática</li>
+        <li>Un script los transforma al formato del reporte</li>
+        <li>Power BI los visualiza en tiempo real en un dashboard compartido con el cliente</li>
+        <li>La IA redacta el comentario narrativo sobre los números ("esta semana el KPI X bajó porque...")</li>
+      </ul>
+
+      <span class="prompt-label">Prompt — Narrativa de datos</span>
+      <div class="prompt-block">Eres el PM de [proyecto]. Aquí están los datos de esta semana : [pega los números clave].
+
+Semana anterior : [datos comparativos].
+
+Escribe el comentario ejecutivo de 3-4 líneas para el reporte semanal : qué pasó, por qué importa, y cuál es el próximo paso concreto. Tono : directo, sin tecnicismos, pensado para un CEO o director que tiene 30 segundos.</div>
+
+      <div class="callout orange">
+        <strong>⚡ Antes vs. Ahora</strong>
+        Antes : 3-4 horas/semana en reporting manual. Ahora : 20 minutos para revisar y validar lo que generó el sistema. Ese tiempo lo invierto en hablar con el equipo y anticipar bloqueos.
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">5</div>
+        <h3>Comunicación de stakeholders que la gente lee</h3>
+      </div>
+      <div class="step-tool"><span class="material-symbols-outlined">mail</span> Claude · Templates</div>
+      <p>El update semanal que nadie lee es un síntoma de comunicación mal calibrada. Cada stakeholder necesita un formato diferente : el CEO quiere 3 líneas, el equipo técnico quiere detalle, el cliente quiere saber si va en plazo.</p>
+
+      <span class="prompt-label">Prompt — Update stakeholder</span>
+      <div class="prompt-block">Escribe el update semanal del proyecto [nombre] para [perfil del stakeholder : CEO / cliente / equipo técnico / dirección].
+
+Estado del proyecto : [en plazo / con retraso de X días / en riesgo por Y].
+KPI principal esta semana : [número y contexto].
+Bloqueo principal : [describe].
+Próximo hito : [fecha y entregable].
+
+El mensaje debe ser :
+- Máximo [3 líneas para CEO / 1 párrafo para cliente / formato lista para equipo]
+- Empezar con el dato más importante, no con contexto
+- Terminar con UNA sola acción requerida del lector (si aplica)
+- Tono [formal / directo / cercano] según el contexto</div>
+
+      <div class="callout violet">
+        <strong>💡 Tip</strong>
+        El error más común : el mismo update para todos. Un mensaje diseñado para todos no resuena con nadie. La IA genera una versión por audiencia en 2 minutos. Lo que cambia no es la información — es el encuadre.
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">6</div>
+        <h3>Automatización de flujos repetitivos</h3>
+      </div>
+      <div class="step-tool"><span class="material-symbols-outlined">auto_mode</span> n8n · Make · Zapier</div>
+      <p>Todo lo que haces más de una vez a la semana de forma manual es un candidato a automatizar. Empecé con 3 flujos que me ahorraron 5+ horas semanales:</p>
+
+      <ul class="check" style="margin-bottom:16px;">
+        <li><strong>Alerta de hito próximo</strong> — n8n lee Notion, detecta fechas a menos de 5 días, y envía un resumen automático al equipo por correo cada lunes</li>
+        <li><strong>Resumen semanal de Slack</strong> — Make agrega los mensajes clave de los canales del proyecto y los condensa en un briefing matinal</li>
+        <li><strong>Actualización de estado</strong> — cuando una tarea se marca como completada en Notion, el dashboard se actualiza solo y el cliente recibe una notificación personalizada</li>
+      </ul>
+
+      <div class="callout green">
+        <strong>⚡ Acción inmediata</strong>
+        Identifica las 3 tareas manuales que haces cada semana sin pensar. Escríbelas. La primera que implique "copiar información de un sitio a otro" es tu primer flujo a automatizar. N8n es gratuito para empezar.
+      </div>
+    </div>
+
+    <!-- FASE 7 -->
+    <div class="step">
+      <div class="step-header">
+        <div class="step-num">7</div>
+        <h3>Dashboard de decisión : el closing del proyecto</h3>
+      </div>
+      <div class="step-tool"><span class="material-symbols-outlined">dashboard</span> Power BI · Claude</div>
+      <p>El proyecto no termina con la entrega. Termina cuando los stakeholders entienden lo que se logró y qué sigue. El dashboard final es el documento que convierte un proyecto completado en un caso de éxito — y en la siguiente oportunidad.</p>
+
+      <span class="prompt-label">Prompt — Resumen ejecutivo de cierre</span>
+      <div class="prompt-block">Eres el PM del proyecto [nombre], que acaba de entrar en fase de cierre. Aquí están los datos finales : [métricas, entregables completados, incidencias, aprendizajes].
+
+Genera el resumen ejecutivo de cierre (máximo 1 página A4) :
+1. Lo que se comprometió vs. lo que se entregó (3 líneas)
+2. Los 2 hitos más importantes del proyecto
+3. El mayor riesgo que gestionamos y cómo lo resolvimos
+4. 3 aprendizajes para el próximo proyecto similar
+5. Próximos pasos recomendados (si aplica)
+
+Tono : profesional, orientado a resultados. Sin excusas, sin relleno.</div>
+
+      <div class="callout violet">
+        <strong>💡 Punto fuerte</strong>
+        Este documento sirve dos veces : como cierre para el cliente, y como portfolio interno para ti. Guarda cada resumen de cierre — en 6 meses tienes una colección de casos de éxito listos para cualquier entrevista o propuesta.
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── REGLAS DE ORO ──────────────────────────────────── -->
+  <div class="section">
+    <p class="part-label">✅ Part 3</p>
+    <h2>Las 5 reglas de oro del PM con IA</h2>
+
+    <div class="regla">
+      <div class="regla-icon">1</div>
+      <div class="regla-text">
+        <strong>Brief narrativo antes de cualquier herramienta.</strong>
+        3 párrafos : qué es el proyecto, cuál es el reto humano real, cómo se ve el éxito. Se reinyecta en cada prompt. Es lo que separa las respuestas genéricas de las respuestas útiles.
+      </div>
+    </div>
+    <div class="regla">
+      <div class="regla-icon">2</div>
+      <div class="regla-text">
+        <strong>Arquitectura Notion antes de empezar.</strong>
+        El coste de reorganizar a mitad del proyecto es 5x el coste de hacerlo bien al principio. 20 minutos de diseño inicial ahorran semanas de caos.
+      </div>
+    </div>
+    <div class="regla">
+      <div class="regla-icon">3</div>
+      <div class="regla-text">
+        <strong>Una audiencia, un formato.</strong>
+        Nunca el mismo update para el CEO y para el equipo técnico. La información no cambia — el encuadre sí. La IA genera una versión por audiencia en 2 minutos.
+      </div>
+    </div>
+    <div class="regla">
+      <div class="regla-icon">4</div>
+      <div class="regla-text">
+        <strong>Automatiza la fricción, no el trabajo.</strong>
+        La IA no sustituye tu criterio como PM. Elimina las tareas de traducción entre sistemas : datos a narrativa, reunión a acta, tarea a notificación. El juicio sigue siendo tuyo.
+      </div>
+    </div>
+    <div class="regla">
+      <div class="regla-icon">5</div>
+      <div class="regla-text">
+        <strong>Guarda cada cierre de proyecto.</strong>
+        Cada resumen ejecutivo de cierre es un activo — para el cliente, para tu portfolio, para la siguiente propuesta. En 12 meses tienes una biblioteca de casos de éxito que ningún CV puede replicar.
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── CTA FINAL ──────────────────────────────────────── -->
+  <div class="cta-section">
+    <p class="part-label" style="text-align:center;">¿Y ahora qué?</p>
+    <h2>¿Listo para implementar este stack en tu equipo?</h2>
+    <p>Tienes el sistema completo : el brief narrativo, las 7 fases, los 7 prompts, las 5 reglas de oro. Dos opciones.</p>
+
+    <div class="options">
+      <div class="option">
+        <span class="option-label a">Opción A</span>
+        <h4>Lo implementas tú solo.</h4>
+        <p>Funciona. La guía es completa. Solo vas a necesitar 3-4 semanas para calibrar el sistema a tu contexto específico y al ritmo de tu equipo.</p>
+      </div>
+      <div class="option featured">
+        <span class="option-label b">Opción B</span>
+        <h4>Lo montamos juntos en 15 minutos.</h4>
+        <p>Una llamada para que me cuentes tu proyecto actual. Te digo exactamente qué adaptar, qué priorizar, y qué automatizar primero. Sin compromiso.</p>
+      </div>
+    </div>
+
+    <a class="btn-calendly" href="https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call" target="_blank">
+      <span class="material-symbols-outlined" style="font-size:18px;">calendar_month</span>
+      Reservar 15 minutos — Gratis
+    </a>
+
+    <p style="margin-top:16px;font-size:12px;color:rgba(212,179,255,.4);">
+      Sin compromiso. Miramos tu proyecto, te muestro cómo lo haría yo, y si encaja vemos cómo trabajar juntos.
+    </p>
+  </div>
+
+  <p style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:16px;">
+    ¿Tienes preguntas? Escríbeme en
+    <a href="https://www.linkedin.com/in/nelly-orozco/" target="_blank" style="color:var(--violet);text-decoration:none;">LinkedIn</a>
+    o directamente por correo.
+  </p>
+
+</div><!-- /wrapper -->
+
+<footer>
+  <p>Guía creada en junio 2026 por <a href="https://nelly-orozco.vercel.app">Nelly Orozco</a> · Project Manager · Madrid<br>
+  Basada en 5 años de gestión de proyectos en México y España. Todos los prompts han sido testeados en proyectos reales.</p>
+</footer>
+
+</body>
+</html>
