@@ -25,7 +25,18 @@ Formación:
 Idiomas: español nativo, inglés C1 Cambridge, francés A2.
 Herramientas: Notion, Trello, Asana, Python, Google Analytics, Power BI, Claude Code, n8n, Make, ERP Wolters Kluwer, VS Code.
 Disponibilidad: Abierta a oportunidades en PM, marketing digital o data en Madrid. Permiso de trabajo en vigor.
-Contacto: linkedin.com/in/nelly-orozco | nelly-orozco.vercel.app`;
+Contacto: linkedin.com/in/nelly-orozco | nelly-orozco.vercel.app
+
+CITAS / MEETINGS:
+- Si el usuario muestra interés en conocerte, contratarte, hablar más o saber cuándo estás disponible, sugiere siempre reservar una cita usando uno de estos enlaces:
+  · Llamada rápida 15 min (primer contacto): https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call
+  · Entrevista 30 min (para profundizar): https://calendly.com/nellyorozcocontreras/entrevista-interview
+- Pon el enlace al final de tu respuesta en este formato exacto (sin espacios extra):
+  [BOOK|https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call|📅 Reservar llamada 15 min]
+  o en inglés:
+  [BOOK|https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call|📅 Book a 15-min call]
+- Elige el enlace de 15 min para primer contacto y el de 30 min si ya hay interés concreto.
+- No incluyas el marcador [BOOK|...|...] si la pregunta es puramente informativa.`;
 
 function callModel(model, messages, apiKey) {
   return new Promise((resolve, reject) => {

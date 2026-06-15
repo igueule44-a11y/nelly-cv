@@ -1215,8 +1215,8 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
 <script>
 (function(){
   const QR={
-    es:['¿Estás disponible para trabajar?','¿Cuál es tu experiencia como PM?','¿Qué herramientas manejas?','¿Hablas inglés?'],
-    en:['Are you available to work?','What is your PM experience?','What tools do you use?','Do you speak English?']
+    es:['¿Estás disponible para trabajar?','¿Cuál es tu experiencia como PM?','¿Qué herramientas manejas?','📅 Reservar una llamada'],
+    en:['Are you available to work?','What is your PM experience?','What tools do you use?','📅 Schedule a call']
   };
   let open=false,lang='es',hist=[],started=false;
 
@@ -1256,7 +1256,13 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
 
   function ncShowQR(){
     const el=document.getElementById('nc-quick');
-    el.innerHTML=QR[lang].map(q=>`<button class="nc-qr" onclick="ncQ('${q.replace(/'/g,"\\'")}')">${q}</button>`).join('');
+    const BOOK_URL='https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call';
+    el.innerHTML=QR[lang].map(q=>{
+      if(q.startsWith('📅')){
+        return `<a class="nc-qr" href="${BOOK_URL}" target="_blank" style="text-decoration:none;">${q}</a>`;
+      }
+      return `<button class="nc-qr" onclick="ncQ('${q.replace(/'/g,"\\'")}')">${q}</button>`;
+    }).join('');
   }
 
   window.ncQ=function(t){
@@ -1278,7 +1284,22 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
     const msgs=document.getElementById('nc-msgs');
     const d=document.createElement('div');
     d.className='nc-m '+role;
-    d.textContent=text;
+    if(role==='bot'){
+      // Detect [BOOK|url|label] and render as button
+      const bookRx=/\[BOOK\|([^\|]+)\|([^\]]+)\]/g;
+      let clean=text.replace(bookRx,'').trim();
+      d.textContent=clean;
+      const matches=[...text.matchAll(bookRx)];
+      matches.forEach(m=>{
+        const btn=document.createElement('a');
+        btn.href=m[1]; btn.target='_blank';
+        btn.textContent=m[2];
+        btn.style.cssText='display:inline-block;margin-top:8px;padding:7px 14px;background:#a875ff;color:#fff;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;letter-spacing:.03em;';
+        d.appendChild(btn);
+      });
+    } else {
+      d.textContent=text;
+    }
     msgs.appendChild(d);
     msgs.scrollTop=msgs.scrollHeight;
     if(role==='usr')hist.push({role:'user',content:text});
