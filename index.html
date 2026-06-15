@@ -1203,7 +1203,7 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
   </div>
   <div id="nc-msgs"></div>
   <div id="nc-quick"></div>
-  <div id="nc-ia">✦ Asistente inteligente · creado por Nelly Orozco</div>
+  <div id="nc-ia">✦ <span id="nc-ia-txt">Asistente inteligente · creado por Nelly Orozco</span></div>
   <div id="nc-foot">
     <input id="nc-inp" type="text" placeholder="Escribe un mensaje..." onkeydown="if(event.key==='Enter')ncSend()"/>
     <button id="nc-btn" onclick="ncSend()">
@@ -1233,6 +1233,7 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
     document.querySelector(`.nc-lb[onclick="ncLang('${l}')"]`).classList.add('on');
     document.getElementById('nc-inp').placeholder=l==='es'?'Escribe un mensaje...':'Type a message...';
     document.getElementById('nc-status').textContent=l==='es'?'En línea · PM Virtual':'Online · Virtual PM';
+    document.getElementById('nc-ia-txt').textContent=l==='es'?'Asistente inteligente · creado por Nelly Orozco':'Smart assistant · created by Nelly Orozco';
     if(!hist.length)ncShowQR();
   };
 
@@ -1240,7 +1241,11 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
     const msgs=document.getElementById('nc-msgs');
     const card=document.createElement('div');
     card.className='nc-intro';
-    card.innerHTML='<img src="nelly-linkedin.jpg" alt="Nelly"/><p><strong>¡Hola! Soy la versión virtual de Nelly.</strong><br>Estoy aquí para responder tus preguntas sobre mi perfil, experiencia y disponibilidad. ¿En qué puedo ayudarte?</p>';
+    const intro={
+      es:'<strong>¡Hola! Soy la versión virtual de Nelly.</strong><br>Estoy aquí para responder tus preguntas sobre mi perfil, experiencia y disponibilidad. ¿En qué puedo ayudarte?',
+      en:'<strong>Hi! I\'m Nelly\'s virtual assistant.</strong><br>I\'m here to answer your questions about her profile, experience and availability. How can I help you?'
+    };
+    card.innerHTML=`<img src="nelly-linkedin.jpg" alt="Nelly"/><p>${intro[lang]}</p>`;
     msgs.appendChild(card);
     ncShowQR();
   }
