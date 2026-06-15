@@ -1303,15 +1303,19 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({messages})
       });
-      if(!r.ok)throw new Error('API '+r.status);
+      if(!r.ok){
+        let detail='';
+        try{const j=await r.json();detail=j.detail||j.error||'';}catch{}
+        throw new Error('HTTP '+r.status+(detail?' — '+detail:''));
+      }
       const data=await r.json();
       dot.remove();
-      const reply=data.reply||(lang==='es'?'Lo siento, hubo un error. Intenta de nuevo.':'Sorry, something went wrong. Please try again.');
+      const reply=data.reply||(lang==='es'?'Lo siento, hubo un error.':'Sorry, something went wrong.');
       const d=ncAdd(reply,'bot');
       hist.push({role:'assistant',content:reply});
     }catch(e){
       dot.remove();
-      ncAdd(lang==='es'?'Disculpa, no pude conectarme en este momento.':'Sorry, I couldn\'t connect right now.','bot');
+      ncAdd('⚠️ '+e.message,'bot');
     }
   }
 })();
