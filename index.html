@@ -202,6 +202,23 @@ footer.bg-rich-black{background:rgba(17,8,26,.8)!important;backdrop-filter:blur(
   50%{box-shadow:0 0 18px rgba(168,117,255,.6),0 0 32px rgba(168,117,255,.22)}
 }
 
+/* Navbar Reservar button — filled purple + pulsing glow */
+.nav-book-btn{
+  background:linear-gradient(135deg,#a875ff,#8b5cf6);
+  border:1px solid rgba(168,117,255,.7)!important;
+  color:#fff!important;
+  animation:nav-book-glow 2.2s ease-in-out infinite;
+}
+.nav-book-btn:hover{
+  background:linear-gradient(135deg,#c084fc,#a875ff)!important;
+  box-shadow:0 0 28px rgba(168,117,255,.75),0 0 50px rgba(168,117,255,.28)!important;
+  transform:scale(1.04);
+}
+@keyframes nav-book-glow{
+  0%,100%{box-shadow:0 0 8px rgba(168,117,255,.45),0 0 18px rgba(168,117,255,.15)}
+  50%{box-shadow:0 0 22px rgba(168,117,255,.85),0 0 40px rgba(168,117,255,.35)}
+}
+
 /* Descargar CV contact button — beam border + cursor spotlight */
 .cv-dl-btn{position:relative;overflow:hidden;--sx:50%;--sy:50%;--so:0}
 .cv-dl-btn::before{
@@ -296,19 +313,18 @@ textarea.form-input{line-height:1.65;resize:vertical;min-height:130px}
 
 <nav class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out py-4 border-b border-transparent" id="navbar">
 <div class="max-w-[1200px] mx-auto px-5 md:px-6 flex justify-between items-center h-16">
-<a class="flex items-center gap-3" href="#">
+<a class="flex items-center gap-2.5 shrink-0 mr-4" href="#">
   <img src="nelly-linkedin.jpg" alt="Nelly Orozco" class="w-9 h-9 rounded-full object-cover object-top flex-shrink-0" style="border:2px solid rgba(168,117,255,.6);box-shadow:0 0 10px rgba(168,117,255,.3)"/>
-  <span class="font-heading text-2xl tracking-tight font-semibold nav-logo-gradient">Nelly Orozco</span>
+  <span class="font-heading text-xl tracking-tight font-semibold nav-logo-gradient">Nelly Orozco</span>
 </a>
-<div class="hidden md:flex items-center gap-8">
+<div class="hidden md:flex items-center gap-6">
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#sobre-mi">Sobre Mí</a>
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#proyectos">Proyectos</a>
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#competencias">Competencias</a>
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#experiencia">Experiencia</a>
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#formacion">Formación</a>
 <a class="nav-cv-btn px-5 py-2 text-[13px] uppercase tracking-[.15em] font-medium rounded transition-all duration-300" href="#contacto">Contacto</a>
-<a class="px-6 py-2.5 text-[13px] tracking-[.1em] uppercase rounded border border-glass-border text-muted-text hover:text-soft-white hover:border-electric-blue transition-all duration-300 font-medium flex items-center gap-2" href="CV Nelly Orozco.pdf" target="_blank"><span class="material-symbols-outlined text-[15px]">download</span>Descargar CV</a>
-<a class="px-5 py-2.5 bg-violet-glow text-rich-black text-[13px] uppercase tracking-[.1em] font-bold rounded flex items-center gap-1.5 hover:shadow-neon-lavender hover:scale-[1.04] transition-all duration-300" href="https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call" target="_blank"><span class="material-symbols-outlined text-[15px]">calendar_month</span>Reservar</a>
+<a class="nav-book-btn px-5 py-2.5 text-[13px] uppercase tracking-[.12em] font-semibold rounded flex items-center gap-1.5 transition-all duration-300" href="https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call" target="_blank"><span class="material-symbols-outlined text-[15px]">calendar_month</span>Reservar</a>
 </div>
 <button class="md:hidden text-soft-white p-2" onclick="document.getElementById('mob').classList.toggle('open')">
 <span class="material-symbols-outlined">menu</span>
@@ -321,8 +337,7 @@ textarea.form-input{line-height:1.65;resize:vertical;min-height:130px}
 <a class="text-muted-text text-sm" href="#experiencia">Experiencia</a>
 <a class="text-muted-text text-sm" href="#formacion">Formación</a>
 <a class="text-muted-text text-sm" href="#contacto">Contacto</a>
-<a class="text-soft-white text-sm border border-glass-border px-4 py-2 rounded w-fit" href="CV Nelly Orozco.pdf" download>Descargar CV</a>
-<a class="text-rich-black text-sm bg-violet-glow font-bold px-4 py-2 rounded flex items-center gap-2 w-fit" href="https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call" target="_blank"><span class="material-symbols-outlined text-[15px]">calendar_month</span>Reservar llamada</a>
+<a class="nav-book-btn text-sm font-semibold px-4 py-2 rounded flex items-center gap-2 w-fit" href="https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call" target="_blank"><span class="material-symbols-outlined text-[15px]">calendar_month</span>Reservar llamada</a>
 </div>
 </nav>
 
