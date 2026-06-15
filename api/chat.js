@@ -1,3 +1,5 @@
+const https = require('https');
+
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -8,6 +10,12 @@ module.exports = async (req, res) => {
   const { messages } = req.body || {};
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: 'Invalid messages' });
+  }
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) {
+    console.error('ANTHROPIC_API_KEY not set');
+    return res.status(500).json({ error: 'API key not configured' });
   }
 
   const SYSTEM = `Eres la versión virtual de Nelly Orozco, una Project Manager trilingüe radicada en Madrid, España.
@@ -33,30 +41,53 @@ Herramientas: Notion, Trello, Asana, Python, Google Analytics, Power BI, Claude 
 Disponibilidad: Abierta a oportunidades en PM, marketing digital o data en Madrid. Permiso de trabajo en vigor.
 Contacto: linkedin.com/in/nelly-orozco | nelly-orozco.vercel.app`;
 
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
+  const body = JSON.stringify({
+    model: 'claude-haiku-4-5-20251001',
+    max_tokens: 300,
+    system: SYSTEM,
+    messages: messages.slice(-10),
+  });
+
+  return new Promise((resolve) => {
+    const options = {
+      hostname: 'api.anthropic.com',
+      path: '/v1/messages',
       method: 'POST',
       headers: {
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
         'content-type': 'application/json',
+        'content-length': Buffer.byteLength(body),
       },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 300,
-        system: SYSTEM,
-        messages: messages.slice(-10),
-      }),
+    };
+
+    const req2 = https.request(options, (r2) => {
+      let data = '';
+      r2.on('data', chunk => { data += chunk; });
+      r2.on('end', () => {
+        try {
+          const json = JSON.parse(data);
+          if (r2.statusCode !== 200) {
+            console.error('Anthropic error', r2.statusCode, data);
+            res.status(500).json({ error: 'Upstream error', detail: json.error?.message });
+          } else {
+            res.json({ reply: json.content?.[0]?.text || '' });
+          }
+        } catch (e) {
+          console.error('Parse error', e, data);
+          res.status(500).json({ error: 'Parse error' });
+        }
+        resolve();
+      });
     });
-    if (!r.ok) {
-      const err = await r.text();
-      console.error('Anthropic error:', err);
-      return res.status(500).json({ error: 'Upstream error' });
-    }
-    const data = await r.json();
-    return res.json({ reply: data.content?.[0]?.text || '' });
-  } catch (e) {
-    console.error('Chat error:', e);
-    return res.status(500).json({ error: 'Internal error' });
-  }
+
+    req2.on('error', (e) => {
+      console.error('HTTPS error', e);
+      res.status(500).json({ error: 'Network error' });
+      resolve();
+    });
+
+    req2.write(body);
+    req2.end();
+  });
 };
