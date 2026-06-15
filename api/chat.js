@@ -18,7 +18,7 @@ Experiencia:
 - Secretaría de las Mujeres, México (2020–2025, 5 años): PM programas sociales, informes institucionales, análisis de datos.
 
 Formación:
-- Máster en Project Management — Esden Business School Madrid (2025-2026), PMBOK7, Agile, PMP/ACP en curso.
+- Máster en Gestión de Proyectos — Esden Business School Madrid (2025-2026), PMBOK7, Agile, PMP/ACP en curso.
 - Especialización Marketing Digital — Instituto Franco-Inglés México (2020, +220h): SEO, SEM, Google Ads, Analytics.
 - Licenciatura Ciencias de la Comunicación — UAEM México (2014-2019).
 
