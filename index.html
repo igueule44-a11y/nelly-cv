@@ -296,7 +296,10 @@ textarea.form-input{line-height:1.65;resize:vertical;min-height:130px}
 
 <nav class="fixed top-0 w-full z-50 transition-all duration-300 ease-in-out py-4 border-b border-transparent" id="navbar">
 <div class="max-w-[1200px] mx-auto px-5 md:px-6 flex justify-between items-center h-16">
-<a class="font-heading text-2xl tracking-tight font-semibold nav-logo-gradient" href="#">Nelly Orozco</a>
+<a class="flex items-center gap-3" href="#">
+  <img src="nelly-linkedin.jpg" alt="Nelly Orozco" class="w-9 h-9 rounded-full object-cover object-top flex-shrink-0" style="border:2px solid rgba(168,117,255,.6);box-shadow:0 0 10px rgba(168,117,255,.3)"/>
+  <span class="font-heading text-2xl tracking-tight font-semibold nav-logo-gradient">Nelly Orozco</span>
+</a>
 <div class="hidden md:flex items-center gap-8">
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#sobre-mi">Sobre Mí</a>
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#proyectos">Proyectos</a>
@@ -305,6 +308,7 @@ textarea.form-input{line-height:1.65;resize:vertical;min-height:130px}
 <a class="text-muted-text hover:text-soft-white transition-colors text-[13px] uppercase tracking-[.15em] font-medium" href="#formacion">Formación</a>
 <a class="nav-cv-btn px-5 py-2 text-[13px] uppercase tracking-[.15em] font-medium rounded transition-all duration-300" href="#contacto">Contacto</a>
 <a class="px-6 py-2.5 text-[13px] tracking-[.1em] uppercase rounded border border-glass-border text-muted-text hover:text-soft-white hover:border-electric-blue transition-all duration-300 font-medium flex items-center gap-2" href="CV Nelly Orozco.pdf" target="_blank"><span class="material-symbols-outlined text-[15px]">download</span>Descargar CV</a>
+<a class="px-5 py-2.5 bg-violet-glow text-rich-black text-[13px] uppercase tracking-[.1em] font-bold rounded flex items-center gap-1.5 hover:shadow-neon-lavender hover:scale-[1.04] transition-all duration-300" href="https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call" target="_blank"><span class="material-symbols-outlined text-[15px]">calendar_month</span>Reservar</a>
 </div>
 <button class="md:hidden text-soft-white p-2" onclick="document.getElementById('mob').classList.toggle('open')">
 <span class="material-symbols-outlined">menu</span>
@@ -318,6 +322,7 @@ textarea.form-input{line-height:1.65;resize:vertical;min-height:130px}
 <a class="text-muted-text text-sm" href="#formacion">Formación</a>
 <a class="text-muted-text text-sm" href="#contacto">Contacto</a>
 <a class="text-soft-white text-sm border border-glass-border px-4 py-2 rounded w-fit" href="CV Nelly Orozco.pdf" download>Descargar CV</a>
+<a class="text-rich-black text-sm bg-violet-glow font-bold px-4 py-2 rounded flex items-center gap-2 w-fit" href="https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call" target="_blank"><span class="material-symbols-outlined text-[15px]">calendar_month</span>Reservar llamada</a>
 </div>
 </nav>
 
@@ -874,6 +879,9 @@ Madrid ·&nbsp;Open to work
 <a class="cv-dl-btn w-full sm:w-auto px-8 py-4 border border-glass-border text-soft-white text-sm uppercase tracking-wider rounded hover:bg-glass-bg hover:text-white hover:shadow-neon-lavender transition-all duration-300 flex items-center justify-center gap-2 font-medium" href="CV Nelly Orozco.pdf" download>
 <span class="material-symbols-outlined text-[18px]">download</span>Descargar CV
 </a>
+<a class="w-full sm:w-auto px-8 py-4 bg-violet-glow text-rich-black text-sm uppercase tracking-wider rounded font-bold flex items-center justify-center gap-2 hover:shadow-neon-lavender hover:scale-[1.03] transition-all duration-300" href="https://calendly.com/nellyorozcocontreras/llamada-rapida-quick-call" target="_blank">
+<span class="material-symbols-outlined text-[18px]">calendar_month</span>Reservar llamada
+</a>
 </div>
 </div>
 </section>
@@ -1294,7 +1302,8 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
         const btn=document.createElement('a');
         btn.href=m[1]; btn.target='_blank';
         btn.textContent=m[2];
-        btn.style.cssText='display:inline-block;margin-top:8px;padding:7px 14px;background:#a875ff;color:#fff;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;letter-spacing:.03em;';
+        btn.className='nc-qr';
+        btn.style.cssText='display:block;margin-top:8px;text-decoration:none;';
         d.appendChild(btn);
       });
     } else {
