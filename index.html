@@ -485,38 +485,30 @@ Madrid ·&nbsp;Open to work
     </div>
   </div>
 
-  <!-- Progress bar -->
-  <div id="cvpb" style="position:absolute;bottom:0;left:0;width:0%;height:2px;background:linear-gradient(90deg,#a875ff,#d4b3ff);"></div>
-
-  <!-- Dot indicators -->
-  <div style="position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:5px;z-index:10;">
-    <span class="cvd" style="width:5px;height:5px;border-radius:50%;background:#a875ff;transition:all .3s;display:block;"></span>
-    <span class="cvd" style="width:5px;height:5px;border-radius:50%;background:rgba(168,117,255,.3);transition:all .3s;display:block;"></span>
-    <span class="cvd" style="width:5px;height:5px;border-radius:50%;background:rgba(168,117,255,.3);transition:all .3s;display:block;"></span>
-    <span class="cvd" style="width:5px;height:5px;border-radius:50%;background:rgba(168,117,255,.3);transition:all .3s;display:block;"></span>
-    <span class="cvd" style="width:5px;height:5px;border-radius:50%;background:rgba(168,117,255,.3);transition:all .3s;display:block;"></span>
-    <span class="cvd" style="width:5px;height:5px;border-radius:50%;background:rgba(168,117,255,.3);transition:all .3s;display:block;"></span>
+  <!-- Arrow navigation -->
+  <div style="position:absolute;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:20px;padding:14px;background:rgba(13,6,24,.5);backdrop-filter:blur(8px);border-top:1px solid rgba(157,123,176,.1);z-index:10;">
+    <button id="cvprev" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(168,117,255,.35);background:rgba(168,117,255,.1);color:#d4b3ff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,box-shadow .2s;flex-shrink:0;" onmouseover="this.style.background='rgba(168,117,255,.28)';this.style.boxShadow='0 0 14px rgba(168,117,255,.3)'" onmouseout="this.style.background='rgba(168,117,255,.1)';this.style.boxShadow='none'">
+      <span class="material-symbols-outlined" style="font-size:20px;line-height:1;">chevron_left</span>
+    </button>
+    <span id="cvcounter" style="font-size:11px;color:rgba(212,179,255,.6);letter-spacing:.2em;min-width:36px;text-align:center;">1 / 6</span>
+    <button id="cvnext" style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(168,117,255,.35);background:rgba(168,117,255,.1);color:#d4b3ff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,box-shadow .2s;flex-shrink:0;" onmouseover="this.style.background='rgba(168,117,255,.28)';this.style.boxShadow='0 0 14px rgba(168,117,255,.3)'" onmouseout="this.style.background='rgba(168,117,255,.1)';this.style.boxShadow='none'">
+      <span class="material-symbols-outlined" style="font-size:20px;line-height:1;">chevron_right</span>
+    </button>
   </div>
 </div>
 <script>
 (function(){
-  var el=document.getElementById('cv-motion');
-  var slides=el.querySelectorAll('.cvs');
-  var dots=el.querySelectorAll('.cvd');
-  var pb=document.getElementById('cvpb');
-  var n=slides.length, cur=0, dur=5000, t0=Date.now(), raf;
+  var slides=document.querySelectorAll('#cv-motion .cvs');
+  var counter=document.getElementById('cvcounter');
+  var n=slides.length, cur=0;
   function show(i){
-    slides.forEach(function(s,j){s.style.opacity=j===i?'1':'0';});
-    dots.forEach(function(d,j){d.style.background=j===i?'#a875ff':'rgba(168,117,255,.3)';d.style.transform=j===i?'scale(1.4)':'scale(1)';});
+    cur=(i+n)%n;
+    slides.forEach(function(s,j){s.style.opacity=j===cur?'1':'0';});
+    counter.textContent=(cur+1)+' / '+n;
   }
-  function tick(){
-    var pct=(Date.now()-t0)/dur*100;
-    if(pct>=100){cur=(cur+1)%n;show(cur);t0=Date.now();pct=0;}
-    pb.style.width=pct+'%';
-    raf=requestAnimationFrame(tick);
-  }
+  document.getElementById('cvprev').addEventListener('click',function(){show(cur-1);});
+  document.getElementById('cvnext').addEventListener('click',function(){show(cur+1);});
   show(0);
-  tick();
 })();
 </script>
 </div>
