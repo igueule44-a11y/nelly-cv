@@ -1139,5 +1139,182 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
   });
 })();
 </script>
+
+<!-- ═══════════════════════════════════════════════════════
+     CHATBOT IA — VERSION VIRTUELLE DE NELLY OROZCO
+════════════════════════════════════════════════════════════ -->
+<style>
+#nc-bubble{position:fixed;bottom:28px;right:28px;width:62px;height:62px;border-radius:50%;cursor:pointer;z-index:9999;transition:transform .3s cubic-bezier(.16,1,.3,1)}
+#nc-bubble:hover{transform:scale(1.08)}
+#nc-bubble img{width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:top;border:2px solid #a875ff;box-shadow:0 0 0 4px rgba(168,117,255,.25),0 0 24px rgba(168,117,255,.4);display:block;animation:nc-ring 2.8s ease-in-out infinite}
+#nc-bubble::after{content:'';position:absolute;bottom:2px;right:2px;width:13px;height:13px;background:#22c55e;border-radius:50%;border:2px solid #11081a}
+@keyframes nc-ring{0%,100%{box-shadow:0 0 0 4px rgba(168,117,255,.25),0 0 24px rgba(168,117,255,.4)}50%{box-shadow:0 0 0 8px rgba(168,117,255,.12),0 0 36px rgba(168,117,255,.6)}}
+#nc-window{position:fixed;bottom:104px;right:28px;width:360px;height:530px;background:rgba(17,8,26,.92);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:20px;display:flex;flex-direction:column;z-index:9998;overflow:hidden;transform:scale(.88) translateY(16px);opacity:0;pointer-events:none;transition:transform .35s cubic-bezier(.16,1,.3,1),opacity .3s}
+#nc-window::before{content:'';position:absolute;inset:0;border-radius:20px;padding:1px;background:linear-gradient(135deg,rgba(168,117,255,.7),rgba(212,179,255,.3),rgba(168,117,255,.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;z-index:1}
+#nc-window.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all}
+#nc-header{padding:13px 14px;display:flex;align-items:center;gap:10px;background:rgba(45,26,61,.55);border-bottom:1px solid rgba(157,123,176,.15);flex-shrink:0}
+#nc-header img{width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:top;border:2px solid #a875ff;flex-shrink:0}
+#nc-header-info{flex:1;min-width:0}
+#nc-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;background:linear-gradient(135deg,#f8f5fa,#e2c8ff,#a875ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+#nc-status{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;color:#9d7bb0;display:flex;align-items:center;gap:5px;margin-top:2px}
+#nc-status::before{content:'';width:7px;height:7px;background:#22c55e;border-radius:50%;flex-shrink:0}
+#nc-lang{display:flex;background:rgba(45,26,61,.9);border:1px solid rgba(157,123,176,.2);border-radius:20px;padding:2px;gap:2px;flex-shrink:0}
+.nc-lb{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;padding:3px 8px;border-radius:16px;border:none;cursor:pointer;background:transparent;color:#9d7bb0;transition:all .2s;letter-spacing:.03em}
+.nc-lb.on{background:#a875ff;color:#fff}
+#nc-x{background:none;border:none;color:#9d7bb0;cursor:pointer;padding:4px;border-radius:6px;display:flex;transition:color .2s;flex-shrink:0}
+#nc-x:hover{color:#f8f5fa}
+#nc-msgs{flex:1;overflow-y:auto;padding:14px 14px 6px;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;scrollbar-color:rgba(157,123,176,.2) transparent}
+.nc-m{max-width:83%;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;line-height:1.55;padding:10px 13px;border-radius:14px;animation:nc-in .25s cubic-bezier(.16,1,.3,1)}
+@keyframes nc-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.nc-m.bot{background:rgba(45,26,61,.75);border:1px solid rgba(157,123,176,.15);color:#c4b5d4;align-self:flex-start;border-radius:14px 14px 14px 4px}
+.nc-m.usr{background:linear-gradient(135deg,rgba(168,117,255,.28),rgba(168,117,255,.12));border:1px solid rgba(168,117,255,.35);color:#f8f5fa;align-self:flex-end;border-radius:14px 14px 4px 14px}
+.nc-intro{background:rgba(45,26,61,.55);border:1px solid rgba(168,117,255,.2);border-radius:14px;padding:13px;display:flex;gap:10px;align-items:flex-start}
+.nc-intro img{width:38px;height:38px;border-radius:50%;object-fit:cover;object-position:top;border:1.5px solid #a875ff;flex-shrink:0}
+.nc-intro p{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;line-height:1.6;color:#c4b5d4;margin:0}
+.nc-intro strong{color:#f8f5fa;font-weight:600}
+#nc-quick{padding:0 14px 8px;display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.nc-qr{font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:500;padding:8px 12px;background:rgba(45,26,61,.6);border:1px solid rgba(168,117,255,.3);border-radius:10px;color:#d4b3ff;cursor:pointer;text-align:left;transition:all .2s;letter-spacing:.01em;width:100%}
+.nc-qr:hover{background:rgba(168,117,255,.18);border-color:rgba(168,117,255,.6);color:#f8f5fa}
+.nc-dot{display:flex;gap:5px;padding:11px 14px;background:rgba(45,26,61,.75);border:1px solid rgba(157,123,176,.15);border-radius:14px 14px 14px 4px;align-self:flex-start;animation:nc-in .25s ease}
+.nc-dot span{width:6px;height:6px;background:#a875ff;border-radius:50%;animation:nc-bounce .9s ease-in-out infinite}
+.nc-dot span:nth-child(2){animation-delay:.15s}
+.nc-dot span:nth-child(3){animation-delay:.3s}
+@keyframes nc-bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+#nc-ia{padding:6px 14px 8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;color:rgba(157,123,176,.7);text-align:center;flex-shrink:0;letter-spacing:.04em}
+#nc-foot{padding:8px 14px 14px;border-top:1px solid rgba(157,123,176,.12);display:flex;gap:8px;flex-shrink:0}
+#nc-inp{flex:1;background:rgba(45,26,61,.55);border:1px solid rgba(157,123,176,.22);border-radius:10px;padding:9px 12px;color:#f8f5fa;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+#nc-inp::placeholder{color:#9d7bb0}
+#nc-inp:focus{border-color:rgba(168,117,255,.5)}
+#nc-btn{width:38px;height:38px;background:#a875ff;border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+#nc-btn:hover{background:#c084fc;transform:scale(1.05)}
+@media(max-width:480px){#nc-window{right:10px;left:10px;width:auto;bottom:94px}#nc-bubble{bottom:20px;right:20px}}
+</style>
+
+<div id="nc-bubble" onclick="ncToggle()" title="Hablar con la versión virtual de Nelly">
+  <img src="nelly-linkedin.jpg" alt="Nelly Orozco"/>
+</div>
+
+<div id="nc-window">
+  <div id="nc-header">
+    <img src="nelly-linkedin.jpg" alt="Nelly"/>
+    <div id="nc-header-info">
+      <div id="nc-name">Nelly Orozco</div>
+      <div id="nc-status">En línea · PM Virtual</div>
+    </div>
+    <div id="nc-lang">
+      <button class="nc-lb on" onclick="ncLang('es')">ES</button>
+      <button class="nc-lb" onclick="ncLang('en')">EN</button>
+    </div>
+    <button id="nc-x" onclick="ncToggle()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div id="nc-msgs"></div>
+  <div id="nc-quick"></div>
+  <div id="nc-ia">✦ Asistente inteligente · creado por Nelly Orozco</div>
+  <div id="nc-foot">
+    <input id="nc-inp" type="text" placeholder="Escribe un mensaje..." onkeydown="if(event.key==='Enter')ncSend()"/>
+    <button id="nc-btn" onclick="ncSend()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const QR={
+    es:['¿Estás disponible para trabajar?','¿Cuál es tu experiencia como PM?','¿Qué herramientas manejas?','¿Hablas inglés?'],
+    en:['Are you available to work?','What is your PM experience?','What tools do you use?','Do you speak English?']
+  };
+  let open=false,lang='es',hist=[],started=false;
+
+  window.ncToggle=function(){
+    open=!open;
+    document.getElementById('nc-window').classList.toggle('open',open);
+    if(open&&!started){ncInit();started=true;}
+    if(open)setTimeout(()=>document.getElementById('nc-inp').focus(),350);
+  };
+
+  window.ncLang=function(l){
+    lang=l;
+    document.querySelectorAll('.nc-lb').forEach(b=>b.classList.remove('on'));
+    document.querySelector(`.nc-lb[onclick="ncLang('${l}')"]`).classList.add('on');
+    document.getElementById('nc-inp').placeholder=l==='es'?'Escribe un mensaje...':'Type a message...';
+    document.getElementById('nc-status').textContent=l==='es'?'En línea · PM Virtual':'Online · Virtual PM';
+    if(!hist.length)ncShowQR();
+  };
+
+  function ncInit(){
+    const msgs=document.getElementById('nc-msgs');
+    const card=document.createElement('div');
+    card.className='nc-intro';
+    card.innerHTML='<img src="nelly-linkedin.jpg" alt="Nelly"/><p><strong>¡Hola! Soy la versión virtual de Nelly.</strong><br>Estoy aquí para responder tus preguntas sobre mi perfil, experiencia y disponibilidad. ¿En qué puedo ayudarte?</p>';
+    msgs.appendChild(card);
+    ncShowQR();
+  }
+
+  function ncShowQR(){
+    const el=document.getElementById('nc-quick');
+    el.innerHTML=QR[lang].map(q=>`<button class="nc-qr" onclick="ncQ('${q.replace(/'/g,"\\'")}')">${q}</button>`).join('');
+  }
+
+  window.ncQ=function(t){
+    document.getElementById('nc-quick').innerHTML='';
+    ncAdd(t,'usr');
+    ncCall(t);
+  };
+
+  window.ncSend=function(){
+    const inp=document.getElementById('nc-inp');
+    const t=inp.value.trim();if(!t)return;
+    inp.value='';
+    document.getElementById('nc-quick').innerHTML='';
+    ncAdd(t,'usr');
+    ncCall(t);
+  };
+
+  function ncAdd(text,role){
+    const msgs=document.getElementById('nc-msgs');
+    const d=document.createElement('div');
+    d.className='nc-m '+role;
+    d.textContent=text;
+    msgs.appendChild(d);
+    msgs.scrollTop=msgs.scrollHeight;
+    if(role==='usr')hist.push({role:'user',content:text});
+    return d;
+  }
+
+  function ncTyping(){
+    const msgs=document.getElementById('nc-msgs');
+    const d=document.createElement('div');
+    d.className='nc-dot';
+    d.innerHTML='<span></span><span></span><span></span>';
+    msgs.appendChild(d);
+    msgs.scrollTop=msgs.scrollHeight;
+    return d;
+  }
+
+  async function ncCall(userText){
+    const dot=ncTyping();
+    try{
+      const messages=[...hist];
+      const r=await fetch('/api/chat',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({messages})
+      });
+      if(!r.ok)throw new Error('API '+r.status);
+      const data=await r.json();
+      dot.remove();
+      const reply=data.reply||(lang==='es'?'Lo siento, hubo un error. Intenta de nuevo.':'Sorry, something went wrong. Please try again.');
+      const d=ncAdd(reply,'bot');
+      hist.push({role:'assistant',content:reply});
+    }catch(e){
+      dot.remove();
+      ncAdd(lang==='es'?'Disculpa, no pude conectarme en este momento.':'Sorry, I couldn\'t connect right now.','bot');
+    }
+  }
+})();
+</script>
 </body>
 </html>
