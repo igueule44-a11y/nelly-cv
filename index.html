@@ -1234,7 +1234,11 @@ window.addEventListener("scroll",()=>{if(window.scrollY>50){nb.classList.add("na
     document.getElementById('nc-inp').placeholder=l==='es'?'Escribe un mensaje...':'Type a message...';
     document.getElementById('nc-status').textContent=l==='es'?'En línea · PM Virtual':'Online · Virtual PM';
     document.getElementById('nc-ia-txt').textContent=l==='es'?'Asistente inteligente · creado por Nelly Orozco':'Smart assistant · created by Nelly Orozco';
-    if(!hist.length)ncShowQR();
+    // Re-render intro + quick replies if no conversation started yet
+    if(!hist.length){
+      document.getElementById('nc-msgs').innerHTML='';
+      ncInit();
+    }
   };
 
   function ncInit(){
